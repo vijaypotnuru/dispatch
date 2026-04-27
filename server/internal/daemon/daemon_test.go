@@ -15,8 +15,8 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/multica-ai/multica/server/internal/daemon/repocache"
-	"github.com/multica-ai/multica/server/pkg/agent"
+	"github.com/vijaypotnuru/dispatch/server/internal/daemon/repocache"
+	"github.com/vijaypotnuru/dispatch/server/pkg/agent"
 )
 
 func createDaemonTestRepo(t *testing.T) string {
@@ -67,7 +67,7 @@ func TestBuildPromptContainsIssueID(t *testing.T) {
 	// Prompt should contain the issue ID and CLI hint.
 	for _, want := range []string{
 		issueID,
-		"multica issue get",
+		"dispatch issue get",
 	} {
 		if !strings.Contains(prompt, want) {
 			t.Fatalf("prompt missing %q", want)
@@ -121,7 +121,7 @@ func TestBuildPromptCommentTriggered(t *testing.T) {
 		commentContent,
 		"Focus on THIS comment",
 		commentID,
-		"multica issue comment add " + issueID + " --parent " + commentID,
+		"dispatch issue comment add " + issueID + " --parent " + commentID,
 		"do NOT reuse --parent values from previous turns",
 		// Silence-as-valid-exit for agent-to-agent loops depends on the
 		// reply command being framed conditionally rather than as a hard
@@ -135,7 +135,7 @@ func TestBuildPromptCommentTriggered(t *testing.T) {
 	}
 
 	// Should still contain CLI hint for fetching issue context.
-	if !strings.Contains(prompt, "multica issue get") {
+	if !strings.Contains(prompt, "dispatch issue get") {
 		t.Fatal("prompt missing CLI hint for issue context")
 	}
 }
@@ -212,7 +212,7 @@ func TestBuildPromptCommentTriggeredNoContent(t *testing.T) {
 		Agent:            &AgentData{Name: "Test"},
 	})
 
-	if !strings.Contains(prompt, "multica issue get") {
+	if !strings.Contains(prompt, "dispatch issue get") {
 		t.Fatal("prompt missing CLI hint")
 	}
 }

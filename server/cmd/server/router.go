@@ -13,16 +13,16 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/multica-ai/multica/server/internal/analytics"
-	"github.com/multica-ai/multica/server/internal/auth"
-	"github.com/multica-ai/multica/server/internal/events"
-	"github.com/multica-ai/multica/server/internal/handler"
-	"github.com/multica-ai/multica/server/internal/middleware"
-	"github.com/multica-ai/multica/server/internal/realtime"
-	"github.com/multica-ai/multica/server/internal/service"
-	"github.com/multica-ai/multica/server/internal/storage"
-	"github.com/multica-ai/multica/server/internal/util"
-	db "github.com/multica-ai/multica/server/pkg/db/generated"
+	"github.com/vijaypotnuru/dispatch/server/internal/analytics"
+	"github.com/vijaypotnuru/dispatch/server/internal/auth"
+	"github.com/vijaypotnuru/dispatch/server/internal/events"
+	"github.com/vijaypotnuru/dispatch/server/internal/handler"
+	"github.com/vijaypotnuru/dispatch/server/internal/middleware"
+	"github.com/vijaypotnuru/dispatch/server/internal/realtime"
+	"github.com/vijaypotnuru/dispatch/server/internal/service"
+	"github.com/vijaypotnuru/dispatch/server/internal/storage"
+	"github.com/vijaypotnuru/dispatch/server/internal/util"
+	db "github.com/vijaypotnuru/dispatch/server/pkg/db/generated"
 )
 
 var defaultOrigins = []string{

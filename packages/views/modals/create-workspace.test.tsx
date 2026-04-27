@@ -11,14 +11,14 @@ vi.mock("../navigation", () => ({
   useNavigation: () => ({ push: mockPush }),
 }));
 
-vi.mock("@multica/core/workspace/mutations", () => ({
+vi.mock("@dispatch/core/workspace/mutations", () => ({
   useCreateWorkspace: () => ({
     mutate: mockCreateWorkspaceMutate,
     isPending: false,
   }),
 }));
 
-vi.mock("@multica/ui/components/ui/dialog", () => ({
+vi.mock("@dispatch/ui/components/ui/dialog", () => ({
   Dialog: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   DialogContent: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   DialogTitle: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,

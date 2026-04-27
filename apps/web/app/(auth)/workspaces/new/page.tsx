@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuthStore } from "@multica/core/auth";
-import { paths } from "@multica/core/paths";
-import { workspaceListOptions } from "@multica/core/workspace/queries";
-import { NewWorkspacePage } from "@multica/views/workspace/new-workspace-page";
+import { useAuthStore } from "@dispatch/core/auth";
+import { paths } from "@dispatch/core/paths";
+import { workspaceListOptions } from "@dispatch/core/workspace/queries";
+import { NewWorkspacePage } from "@dispatch/views/workspace/new-workspace-page";
 
 export default function Page() {
   const router = useRouter();

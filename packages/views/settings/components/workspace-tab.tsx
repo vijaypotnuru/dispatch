@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Save, LogOut } from "lucide-react";
-import { Input } from "@multica/ui/components/ui/input";
-import { Textarea } from "@multica/ui/components/ui/textarea";
-import { Label } from "@multica/ui/components/ui/label";
-import { Button } from "@multica/ui/components/ui/button";
-import { Card, CardContent } from "@multica/ui/components/ui/card";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Textarea } from "@dispatch/ui/components/ui/textarea";
+import { Label } from "@dispatch/ui/components/ui/label";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { Card, CardContent } from "@dispatch/ui/components/ui/card";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -16,25 +16,25 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
-} from "@multica/ui/components/ui/alert-dialog";
+} from "@dispatch/ui/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuthStore } from "@multica/core/auth";
-import { useLeaveWorkspace, useDeleteWorkspace } from "@multica/core/workspace/mutations";
-import { useWorkspaceId } from "@multica/core/hooks";
+import { useAuthStore } from "@dispatch/core/auth";
+import { useLeaveWorkspace, useDeleteWorkspace } from "@dispatch/core/workspace/mutations";
+import { useWorkspaceId } from "@dispatch/core/hooks";
 import {
   memberListOptions,
   workspaceKeys,
   workspaceListOptions,
-} from "@multica/core/workspace/queries";
-import { api } from "@multica/core/api";
+} from "@dispatch/core/workspace/queries";
+import { api } from "@dispatch/core/api";
 import {
   resolvePostAuthDestination,
   useCurrentWorkspace,
   useHasOnboarded,
-} from "@multica/core/paths";
-import { setCurrentWorkspace } from "@multica/core/platform";
-import type { Workspace } from "@multica/core/types";
+} from "@dispatch/core/paths";
+import { setCurrentWorkspace } from "@dispatch/core/platform";
+import type { Workspace } from "@dispatch/core/types";
 import { useNavigation } from "../../navigation";
 import { DeleteWorkspaceDialog } from "./delete-workspace-dialog";
 

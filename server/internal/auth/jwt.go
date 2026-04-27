@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-const defaultJWTSecret = "multica-dev-secret-change-in-production"
+const defaultJWTSecret = "dispatch-dev-secret-change-in-production"
 
 var (
 	jwtSecret     []byte

@@ -2,20 +2,20 @@
 
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { cn } from "@multica/ui/lib/utils";
-import { Skeleton } from "@multica/ui/components/ui/skeleton";
+import { cn } from "@dispatch/ui/lib/utils";
+import { Skeleton } from "@dispatch/ui/components/ui/skeleton";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@multica/ui/components/ui/collapsible";
+} from "@dispatch/ui/components/ui/collapsible";
 import { Loader2, ChevronRight, ChevronDown, Brain, AlertCircle } from "lucide-react";
-import { useScrollFade } from "@multica/ui/hooks/use-scroll-fade";
-import { useAutoScroll } from "@multica/ui/hooks/use-auto-scroll";
-import { taskMessagesOptions } from "@multica/core/chat/queries";
-import { Markdown } from "@multica/views/common/markdown";
-import type { ChatMessage, TaskMessagePayload } from "@multica/core/types";
-import type { ChatTimelineItem } from "@multica/core/chat";
+import { useScrollFade } from "@dispatch/ui/hooks/use-scroll-fade";
+import { useAutoScroll } from "@dispatch/ui/hooks/use-auto-scroll";
+import { taskMessagesOptions } from "@dispatch/core/chat/queries";
+import { Markdown } from "@dispatch/views/common/markdown";
+import type { ChatMessage, TaskMessagePayload } from "@dispatch/core/types";
+import type { ChatTimelineItem } from "@dispatch/core/chat";
 
 // ─── Public component ────────────────────────────────────────────────────
 

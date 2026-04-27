@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { MemberRole, Skill } from "@multica/core/types";
-import { useAuthStore } from "@multica/core/auth";
-import { memberListOptions } from "@multica/core/workspace/queries";
+import type { MemberRole, Skill } from "@dispatch/core/types";
+import { useAuthStore } from "@dispatch/core/auth";
+import { memberListOptions } from "@dispatch/core/workspace/queries";
 
 /**
  * Whether the current user may edit/delete the given skill.

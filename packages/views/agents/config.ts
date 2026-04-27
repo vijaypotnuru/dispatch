@@ -1,4 +1,4 @@
-import type { AgentStatus } from "@multica/core/types";
+import type { AgentStatus } from "@dispatch/core/types";
 import {
   Clock,
   CheckCircle2,

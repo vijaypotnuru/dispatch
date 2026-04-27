@@ -3,13 +3,13 @@
 import { use, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { WorkspaceSlugProvider, paths } from "@multica/core/paths";
-import { workspaceBySlugOptions } from "@multica/core/workspace";
-import { setCurrentWorkspace } from "@multica/core/platform";
-import { useAuthStore } from "@multica/core/auth";
-import { NoAccessPage } from "@multica/views/workspace/no-access-page";
-import { MulticaIcon } from "@multica/ui/components/common/multica-icon";
-import { useWorkspaceSeen } from "@multica/views/workspace/use-workspace-seen";
+import { WorkspaceSlugProvider, paths } from "@dispatch/core/paths";
+import { workspaceBySlugOptions } from "@dispatch/core/workspace";
+import { setCurrentWorkspace } from "@dispatch/core/platform";
+import { useAuthStore } from "@dispatch/core/auth";
+import { NoAccessPage } from "@dispatch/views/workspace/no-access-page";
+import { DispatchIcon } from "@dispatch/ui/components/common/dispatch-icon";
+import { useWorkspaceSeen } from "@dispatch/views/workspace/use-workspace-seen";
 
 export default function WorkspaceLayout({
   children,
@@ -63,7 +63,7 @@ export default function WorkspaceLayout({
 
   const loadingIndicator = (
     <div className="flex h-svh items-center justify-center">
-      <MulticaIcon className="size-6 animate-pulse" />
+      <DispatchIcon className="size-6 animate-pulse" />
     </div>
   );
 

@@ -3,21 +3,21 @@
 import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@multica/ui/components/ui/button";
-import { useScrollFade } from "@multica/ui/hooks/use-scroll-fade";
-import { cn } from "@multica/ui/lib/utils";
-import { api } from "@multica/core/api";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { useScrollFade } from "@dispatch/ui/hooks/use-scroll-fade";
+import { cn } from "@dispatch/ui/lib/utils";
+import { api } from "@dispatch/core/api";
 import {
   recommendTemplate,
   type AgentTemplateId,
   type QuestionnaireAnswers,
-} from "@multica/core/onboarding";
+} from "@dispatch/core/onboarding";
 import type {
   Agent,
   AgentRuntime,
   CreateAgentRequest,
-} from "@multica/core/types";
-import { DragStrip } from "@multica/views/platform";
+} from "@dispatch/core/types";
+import { DragStrip } from "@dispatch/views/platform";
 import { StepHeader } from "../components/step-header";
 
 /**
@@ -329,7 +329,7 @@ function AboutAgentsSide() {
       </p>
 
       <a
-        href="https://multica.ai/docs/agents-create"
+        href="https://dispatch.dev/docs/agents-create"
         target="_blank"
         rel="noopener noreferrer"
         className="self-start text-[13px] text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"

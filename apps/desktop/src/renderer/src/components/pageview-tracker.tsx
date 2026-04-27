@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { capturePageview } from "@multica/core/analytics";
-import { useAuthStore } from "@multica/core/auth";
+import { capturePageview } from "@dispatch/core/analytics";
+import { useAuthStore } from "@dispatch/core/auth";
 import { useTabStore } from "@/stores/tab-store";
 import { useWindowOverlayStore, type WindowOverlay } from "@/stores/window-overlay-store";
 

@@ -7,33 +7,33 @@ import type {
   AgentRuntime,
   RuntimeLocalSkillSummary,
   Skill,
-} from "@multica/core/types";
-import { useAuthStore } from "@multica/core/auth";
-import { useWorkspaceId } from "@multica/core/hooks";
+} from "@dispatch/core/types";
+import { useAuthStore } from "@dispatch/core/auth";
+import { useWorkspaceId } from "@dispatch/core/hooks";
 import {
   runtimeListOptions,
   runtimeLocalSkillsKeys,
   runtimeLocalSkillsOptions,
   resolveRuntimeLocalSkillImport,
-} from "@multica/core/runtimes";
+} from "@dispatch/core/runtimes";
 import {
   skillDetailOptions,
   workspaceKeys,
-} from "@multica/core/workspace/queries";
-import { Button } from "@multica/ui/components/ui/button";
-import { Input } from "@multica/ui/components/ui/input";
-import { Label } from "@multica/ui/components/ui/label";
-import { Badge } from "@multica/ui/components/ui/badge";
+} from "@dispatch/core/workspace/queries";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Label } from "@dispatch/ui/components/ui/label";
+import { Badge } from "@dispatch/ui/components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@multica/ui/components/ui/select";
-import { Skeleton } from "@multica/ui/components/ui/skeleton";
-import { Textarea } from "@multica/ui/components/ui/textarea";
-import { useScrollFade } from "@multica/ui/hooks/use-scroll-fade";
+} from "@dispatch/ui/components/ui/select";
+import { Skeleton } from "@dispatch/ui/components/ui/skeleton";
+import { Textarea } from "@dispatch/ui/components/ui/textarea";
+import { useScrollFade } from "@dispatch/ui/hooks/use-scroll-fade";
 import { toast } from "sonner";
 
 function runtimeLabel(runtime: AgentRuntime): string {

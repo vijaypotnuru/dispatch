@@ -1,12 +1,12 @@
 version: 2
 
-project_name: multica
+project_name: dispatch
 
 builds:
-  - id: multica
-    main: ./cmd/multica
+  - id: dispatch
+    main: ./cmd/dispatch
     dir: server
-    binary: multica
+    binary: dispatch
     ldflags:
       - -s -w
       - -X main.version={{.Version}}
@@ -23,8 +23,8 @@ builds:
       - arm64
 
 archives:
-  # Legacy archive name kept so already-released CLIs (whose `multica update`
-  # looks for `multica_{os}_{arch}.{ext}`) can keep self-updating. Remove
+  # Legacy archive name kept so already-released CLIs (whose `dispatch update`
+  # looks for `dispatch_{os}_{arch}.{ext}`) can keep self-updating. Remove
   # once those versions are no longer in use.
   - id: legacy
     formats:
@@ -57,19 +57,19 @@ changelog:
       - "^chore:"
 
 brews:
-  - name: multica
+  - name: dispatch
     ids:
       - versioned
     repository:
-      owner: multica-ai
+      owner: dispatch-ai
       name: homebrew-tap
       branch: main
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
     directory: Formula
-    homepage: "https://github.com/multica-ai/multica"
-    description: "Multica CLI — local agent runtime and management tool for the Multica platform"
+    homepage: "https://github.com/vijaypotnuru/dispatch"
+    description: "Dispatch CLI — local agent runtime and management tool for the Dispatch platform"
     license: "Apache-2.0"
     install: |
-      bin.install "multica"
+      bin.install "dispatch"
     test: |
-      system "#{bin}/multica", "version"
+      system "#{bin}/dispatch", "version"

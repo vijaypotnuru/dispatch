@@ -11,15 +11,15 @@ import {
 import { ReactRenderer } from "@tiptap/react";
 import { computePosition, offset, flip, shift } from "@floating-ui/dom";
 import type { QueryClient } from "@tanstack/react-query";
-import { getCurrentWsId } from "@multica/core/platform";
-import { flattenIssueBuckets, issueKeys } from "@multica/core/issues/queries";
-import { workspaceKeys } from "@multica/core/workspace/queries";
-import { api } from "@multica/core/api";
-import type { Issue, ListIssuesCache, MemberWithUser, Agent } from "@multica/core/types";
+import { getCurrentWsId } from "@dispatch/core/platform";
+import { flattenIssueBuckets, issueKeys } from "@dispatch/core/issues/queries";
+import { workspaceKeys } from "@dispatch/core/workspace/queries";
+import { api } from "@dispatch/core/api";
+import type { Issue, ListIssuesCache, MemberWithUser, Agent } from "@dispatch/core/types";
 import { ActorAvatar } from "../../common/actor-avatar";
 import { StatusIcon } from "../../issues/components/status-icon";
-import { Badge } from "@multica/ui/components/ui/badge";
-import type { IssueStatus } from "@multica/core/types";
+import { Badge } from "@dispatch/ui/components/ui/badge";
+import type { IssueStatus } from "@dispatch/core/types";
 import type { SuggestionOptions, SuggestionProps } from "@tiptap/suggestion";
 
 // ---------------------------------------------------------------------------

@@ -6,8 +6,8 @@ import {
   Server,
   Activity,
 } from "lucide-react";
-import { cn } from "@multica/ui/lib/utils";
-import { Button } from "@multica/ui/components/ui/button";
+import { cn } from "@dispatch/ui/lib/utils";
+import { Button } from "@dispatch/ui/components/ui/button";
 import { toast } from "sonner";
 import { DaemonPanel } from "./daemon-panel";
 import type { DaemonStatus } from "../../../shared/daemon-types";

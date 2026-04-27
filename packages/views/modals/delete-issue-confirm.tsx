@@ -11,8 +11,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@multica/ui/components/ui/alert-dialog";
-import { useDeleteIssue } from "@multica/core/issues/mutations";
+} from "@dispatch/ui/components/ui/alert-dialog";
+import { useDeleteIssue } from "@dispatch/core/issues/mutations";
 import { useNavigation } from "../navigation";
 
 export function DeleteIssueConfirmModal({

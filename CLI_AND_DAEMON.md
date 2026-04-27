@@ -1,68 +1,68 @@
 # CLI and Agent Daemon Guide
 
-The `multica` CLI connects your local machine to Multica. It handles authentication, workspace management, issue tracking, and runs the agent daemon that executes AI tasks locally.
+The `dispatch` CLI connects your local machine to Dispatch. It handles authentication, workspace management, issue tracking, and runs the agent daemon that executes AI tasks locally.
 
 ## Installation
 
 ### Homebrew (macOS/Linux)
 
 ```bash
-brew install multica-ai/tap/multica
+brew install vijaypotnuru/tap/dispatch
 ```
 
 ### Build from Source
 
 ```bash
-git clone https://github.com/multica-ai/multica.git
-cd multica
+git clone https://github.com/vijaypotnuru/dispatch.git
+cd dispatch
 make build
-cp server/bin/multica /usr/local/bin/multica
+cp server/bin/dispatch /usr/local/bin/dispatch
 ```
 
 ### Update
 
 ```bash
-brew upgrade multica-ai/tap/multica
+brew upgrade vijaypotnuru/tap/dispatch
 ```
 
 For install script or manual installs, use:
 
 ```bash
-multica update
+dispatch update
 ```
 
-`multica update` auto-detects your installation method and upgrades accordingly.
+`dispatch update` auto-detects your installation method and upgrades accordingly.
 
 ## Quick Start
 
 ```bash
 # One-command setup: configure, authenticate, and start the daemon
-multica setup
+dispatch setup
 
 # For self-hosted (local) deployments:
-multica setup self-host
+dispatch setup self-host
 ```
 
 Or step by step:
 
 ```bash
 # 1. Authenticate (opens browser for login)
-multica login
+dispatch login
 
 # 2. Start the agent daemon
-multica daemon start
+dispatch daemon start
 
 # 3. Done — agents in your watched workspaces can now execute tasks on your machine
 ```
 
-`multica login` automatically discovers all workspaces you belong to and adds them to the daemon watch list.
+`dispatch login` automatically discovers all workspaces you belong to and adds them to the daemon watch list.
 
 ## Authentication
 
 ### Browser Login
 
 ```bash
-multica login
+dispatch login
 ```
 
 Opens your browser for OAuth authentication, creates a 90-day personal access token, and auto-configures your workspaces.
@@ -70,7 +70,7 @@ Opens your browser for OAuth authentication, creates a 90-day personal access to
 ### Token Login
 
 ```bash
-multica login --token
+dispatch login --token
 ```
 
 Authenticate by pasting a personal access token directly. Useful for headless environments.
@@ -78,7 +78,7 @@ Authenticate by pasting a personal access token directly. Useful for headless en
 ### Check Status
 
 ```bash
-multica auth status
+dispatch auth status
 ```
 
 Shows your current server, user, and token validity.
@@ -86,40 +86,40 @@ Shows your current server, user, and token validity.
 ### Logout
 
 ```bash
-multica auth logout
+dispatch auth logout
 ```
 
 Removes the stored authentication token.
 
 ## Agent Daemon
 
-The daemon is the local agent runtime. It detects available AI CLIs on your machine, registers them with the Multica server, and executes tasks when agents are assigned work.
+The daemon is the local agent runtime. It detects available AI CLIs on your machine, registers them with the Dispatch server, and executes tasks when agents are assigned work.
 
 ### Start
 
 ```bash
-multica daemon start
+dispatch daemon start
 ```
 
-By default, the daemon runs in the background and logs to `~/.multica/daemon.log`.
+By default, the daemon runs in the background and logs to `~/.dispatch/daemon.log`.
 
 To run in the foreground (useful for debugging):
 
 ```bash
-multica daemon start --foreground
+dispatch daemon start --foreground
 ```
 
 ### Stop
 
 ```bash
-multica daemon stop
+dispatch daemon stop
 ```
 
 ### Status
 
 ```bash
-multica daemon status
-multica daemon status --output json
+dispatch daemon status
+dispatch daemon status --output json
 ```
 
 Shows PID, uptime, detected agents, and watched workspaces.
@@ -127,9 +127,9 @@ Shows PID, uptime, detected agents, and watched workspaces.
 ### Logs
 
 ```bash
-multica daemon logs              # Last 50 lines
-multica daemon logs -f           # Follow (tail -f)
-multica daemon logs -n 100       # Last 100 lines
+dispatch daemon logs              # Last 50 lines
+dispatch daemon logs -f           # Follow (tail -f)
+dispatch daemon logs -n 100       # Last 100 lines
 ```
 
 ### Supported Agents
@@ -163,61 +163,61 @@ Daemon behavior is configured via flags or environment variables:
 
 | Setting | Flag | Env Variable | Default |
 |---------|------|--------------|---------|
-| Poll interval | `--poll-interval` | `MULTICA_DAEMON_POLL_INTERVAL` | `3s` |
-| Heartbeat interval | `--heartbeat-interval` | `MULTICA_DAEMON_HEARTBEAT_INTERVAL` | `15s` |
-| Agent timeout | `--agent-timeout` | `MULTICA_AGENT_TIMEOUT` | `2h` |
-| Max concurrent tasks | `--max-concurrent-tasks` | `MULTICA_DAEMON_MAX_CONCURRENT_TASKS` | `20` |
-| Daemon ID | `--daemon-id` | `MULTICA_DAEMON_ID` | hostname |
-| Device name | `--device-name` | `MULTICA_DAEMON_DEVICE_NAME` | hostname |
-| Runtime name | `--runtime-name` | `MULTICA_AGENT_RUNTIME_NAME` | `Local Agent` |
-| Workspaces root | — | `MULTICA_WORKSPACES_ROOT` | `~/multica_workspaces` |
+| Poll interval | `--poll-interval` | `DISPATCH_DAEMON_POLL_INTERVAL` | `3s` |
+| Heartbeat interval | `--heartbeat-interval` | `DISPATCH_DAEMON_HEARTBEAT_INTERVAL` | `15s` |
+| Agent timeout | `--agent-timeout` | `DISPATCH_AGENT_TIMEOUT` | `2h` |
+| Max concurrent tasks | `--max-concurrent-tasks` | `DISPATCH_DAEMON_MAX_CONCURRENT_TASKS` | `20` |
+| Daemon ID | `--daemon-id` | `DISPATCH_DAEMON_ID` | hostname |
+| Device name | `--device-name` | `DISPATCH_DAEMON_DEVICE_NAME` | hostname |
+| Runtime name | `--runtime-name` | `DISPATCH_AGENT_RUNTIME_NAME` | `Local Agent` |
+| Workspaces root | — | `DISPATCH_WORKSPACES_ROOT` | `~/dispatch_workspaces` |
 
 Agent-specific overrides:
 
 | Variable | Description |
 |----------|-------------|
-| `MULTICA_CLAUDE_PATH` | Custom path to the `claude` binary |
-| `MULTICA_CLAUDE_MODEL` | Override the Claude model used |
-| `MULTICA_CODEX_PATH` | Custom path to the `codex` binary |
-| `MULTICA_CODEX_MODEL` | Override the Codex model used |
-| `MULTICA_OPENCODE_PATH` | Custom path to the `opencode` binary |
-| `MULTICA_OPENCODE_MODEL` | Override the OpenCode model used |
-| `MULTICA_OPENCLAW_PATH` | Custom path to the `openclaw` binary |
-| `MULTICA_OPENCLAW_MODEL` | Override the OpenClaw model used |
-| `MULTICA_HERMES_PATH` | Custom path to the `hermes` binary |
-| `MULTICA_HERMES_MODEL` | Override the Hermes model used |
-| `MULTICA_GEMINI_PATH` | Custom path to the `gemini` binary |
-| `MULTICA_GEMINI_MODEL` | Override the Gemini model used |
-| `MULTICA_PI_PATH` | Custom path to the `pi` binary |
-| `MULTICA_PI_MODEL` | Override the Pi model used |
-| `MULTICA_CURSOR_PATH` | Custom path to the `cursor-agent` binary |
-| `MULTICA_CURSOR_MODEL` | Override the Cursor Agent model used |
+| `DISPATCH_CLAUDE_PATH` | Custom path to the `claude` binary |
+| `DISPATCH_CLAUDE_MODEL` | Override the Claude model used |
+| `DISPATCH_CODEX_PATH` | Custom path to the `codex` binary |
+| `DISPATCH_CODEX_MODEL` | Override the Codex model used |
+| `DISPATCH_OPENCODE_PATH` | Custom path to the `opencode` binary |
+| `DISPATCH_OPENCODE_MODEL` | Override the OpenCode model used |
+| `DISPATCH_OPENCLAW_PATH` | Custom path to the `openclaw` binary |
+| `DISPATCH_OPENCLAW_MODEL` | Override the OpenClaw model used |
+| `DISPATCH_HERMES_PATH` | Custom path to the `hermes` binary |
+| `DISPATCH_HERMES_MODEL` | Override the Hermes model used |
+| `DISPATCH_GEMINI_PATH` | Custom path to the `gemini` binary |
+| `DISPATCH_GEMINI_MODEL` | Override the Gemini model used |
+| `DISPATCH_PI_PATH` | Custom path to the `pi` binary |
+| `DISPATCH_PI_MODEL` | Override the Pi model used |
+| `DISPATCH_CURSOR_PATH` | Custom path to the `cursor-agent` binary |
+| `DISPATCH_CURSOR_MODEL` | Override the Cursor Agent model used |
 
 ### Self-Hosted Server
 
-When connecting to a self-hosted Multica instance, the easiest approach is:
+When connecting to a self-hosted Dispatch instance, the easiest approach is:
 
 ```bash
 # One command — configures for localhost, authenticates, starts daemon
-multica setup self-host
+dispatch setup self-host
 
 # Or for on-premise with custom domains:
-multica setup self-host --server-url https://api.example.com --app-url https://app.example.com
+dispatch setup self-host --server-url https://api.example.com --app-url https://app.example.com
 ```
 
 Or configure manually:
 
 ```bash
 # Set URLs individually
-multica config set server_url http://localhost:8080
-multica config set app_url http://localhost:3000
+dispatch config set server_url http://localhost:8080
+dispatch config set app_url http://localhost:3000
 
 # For production with TLS:
-# multica config set server_url https://api.example.com
-# multica config set app_url https://app.example.com
+# dispatch config set server_url https://api.example.com
+# dispatch config set app_url https://app.example.com
 
-multica login
-multica daemon start
+dispatch login
+dispatch daemon start
 ```
 
 ### Profiles
@@ -226,23 +226,23 @@ Profiles let you run multiple daemons on the same machine — for example, one f
 
 ```bash
 # Set up a staging profile
-multica setup self-host --profile staging --server-url https://api-staging.example.com --app-url https://staging.example.com
+dispatch setup self-host --profile staging --server-url https://api-staging.example.com --app-url https://staging.example.com
 
 # Start its daemon
-multica daemon start --profile staging
+dispatch daemon start --profile staging
 
 # Default profile runs separately
-multica daemon start
+dispatch daemon start
 ```
 
-Each profile gets its own config directory (`~/.multica/profiles/<name>/`), daemon state, health port, and workspace root.
+Each profile gets its own config directory (`~/.dispatch/profiles/<name>/`), daemon state, health port, and workspace root.
 
 ## Workspaces
 
 ### List Workspaces
 
 ```bash
-multica workspace list
+dispatch workspace list
 ```
 
 Watched workspaces are marked with `*`. The daemon only processes tasks for watched workspaces.
@@ -250,21 +250,21 @@ Watched workspaces are marked with `*`. The daemon only processes tasks for watc
 ### Watch / Unwatch
 
 ```bash
-multica workspace watch <workspace-id>
-multica workspace unwatch <workspace-id>
+dispatch workspace watch <workspace-id>
+dispatch workspace unwatch <workspace-id>
 ```
 
 ### Get Details
 
 ```bash
-multica workspace get <workspace-id>
-multica workspace get <workspace-id> --output json
+dispatch workspace get <workspace-id>
+dispatch workspace get <workspace-id> --output json
 ```
 
 ### List Members
 
 ```bash
-multica workspace members <workspace-id>
+dispatch workspace members <workspace-id>
 ```
 
 ## Issues
@@ -272,10 +272,10 @@ multica workspace members <workspace-id>
 ### List Issues
 
 ```bash
-multica issue list
-multica issue list --status in_progress
-multica issue list --priority urgent --assignee "Agent Name"
-multica issue list --limit 20 --output json
+dispatch issue list
+dispatch issue list --status in_progress
+dispatch issue list --priority urgent --assignee "Agent Name"
+dispatch issue list --limit 20 --output json
 ```
 
 Available filters: `--status`, `--priority`, `--assignee`, `--project`, `--limit`.
@@ -283,14 +283,14 @@ Available filters: `--status`, `--priority`, `--assignee`, `--project`, `--limit
 ### Get Issue
 
 ```bash
-multica issue get <id>
-multica issue get <id> --output json
+dispatch issue get <id>
+dispatch issue get <id> --output json
 ```
 
 ### Create Issue
 
 ```bash
-multica issue create --title "Fix login bug" --description "..." --priority high --assignee "Lambda"
+dispatch issue create --title "Fix login bug" --description "..." --priority high --assignee "Lambda"
 ```
 
 Flags: `--title` (required), `--description`, `--status`, `--priority`, `--assignee`, `--parent`, `--project`, `--due-date`.
@@ -298,20 +298,20 @@ Flags: `--title` (required), `--description`, `--status`, `--priority`, `--assig
 ### Update Issue
 
 ```bash
-multica issue update <id> --title "New title" --priority urgent
+dispatch issue update <id> --title "New title" --priority urgent
 ```
 
 ### Assign Issue
 
 ```bash
-multica issue assign <id> --to "Lambda"
-multica issue assign <id> --unassign
+dispatch issue assign <id> --to "Lambda"
+dispatch issue assign <id> --unassign
 ```
 
 ### Change Status
 
 ```bash
-multica issue status <id> in_progress
+dispatch issue status <id> in_progress
 ```
 
 Valid statuses: `backlog`, `todo`, `in_progress`, `in_review`, `done`, `blocked`, `cancelled`.
@@ -320,35 +320,35 @@ Valid statuses: `backlog`, `todo`, `in_progress`, `in_review`, `done`, `blocked`
 
 ```bash
 # List comments
-multica issue comment list <issue-id>
+dispatch issue comment list <issue-id>
 
 # Add a comment
-multica issue comment add <issue-id> --content "Looks good, merging now"
+dispatch issue comment add <issue-id> --content "Looks good, merging now"
 
 # Reply to a specific comment
-multica issue comment add <issue-id> --parent <comment-id> --content "Thanks!"
+dispatch issue comment add <issue-id> --parent <comment-id> --content "Thanks!"
 
 # Delete a comment
-multica issue comment delete <comment-id>
+dispatch issue comment delete <comment-id>
 ```
 
 ### Subscribers
 
 ```bash
 # List subscribers of an issue
-multica issue subscriber list <issue-id>
+dispatch issue subscriber list <issue-id>
 
 # Subscribe yourself to an issue
-multica issue subscriber add <issue-id>
+dispatch issue subscriber add <issue-id>
 
 # Subscribe another member or agent by name
-multica issue subscriber add <issue-id> --user "Lambda"
+dispatch issue subscriber add <issue-id> --user "Lambda"
 
 # Unsubscribe yourself
-multica issue subscriber remove <issue-id>
+dispatch issue subscriber remove <issue-id>
 
 # Unsubscribe another member or agent
-multica issue subscriber remove <issue-id> --user "Lambda"
+dispatch issue subscriber remove <issue-id> --user "Lambda"
 ```
 
 Subscribers receive notifications about issue activity (new comments, status changes, etc.). Without `--user`, the command acts on the caller.
@@ -357,15 +357,15 @@ Subscribers receive notifications about issue activity (new comments, status cha
 
 ```bash
 # List all execution runs for an issue
-multica issue runs <issue-id>
-multica issue runs <issue-id> --output json
+dispatch issue runs <issue-id>
+dispatch issue runs <issue-id> --output json
 
 # View messages for a specific execution run
-multica issue run-messages <task-id>
-multica issue run-messages <task-id> --output json
+dispatch issue run-messages <task-id>
+dispatch issue run-messages <task-id> --output json
 
 # Incremental fetch (only messages after a given sequence number)
-multica issue run-messages <task-id> --since 42 --output json
+dispatch issue run-messages <task-id> --since 42 --output json
 ```
 
 The `runs` command shows all past and current executions for an issue, including running tasks. The `run-messages` command shows the detailed message log (tool calls, thinking, text, errors) for a single run. Use `--since` for efficient polling of in-progress runs.
@@ -378,9 +378,9 @@ belongs to a workspace and can optionally have a lead (member or agent).
 ### List Projects
 
 ```bash
-multica project list
-multica project list --status in_progress
-multica project list --output json
+dispatch project list
+dispatch project list --status in_progress
+dispatch project list --output json
 ```
 
 Available filters: `--status`.
@@ -388,14 +388,14 @@ Available filters: `--status`.
 ### Get Project
 
 ```bash
-multica project get <id>
-multica project get <id> --output json
+dispatch project get <id>
+dispatch project get <id> --output json
 ```
 
 ### Create Project
 
 ```bash
-multica project create --title "2026 Week 16 Sprint" --icon "🏃" --lead "Lambda"
+dispatch project create --title "2026 Week 16 Sprint" --icon "🏃" --lead "Lambda"
 ```
 
 Flags: `--title` (required), `--description`, `--status`, `--icon`, `--lead`.
@@ -403,8 +403,8 @@ Flags: `--title` (required), `--description`, `--status`, `--icon`, `--lead`.
 ### Update Project
 
 ```bash
-multica project update <id> --title "New title" --status in_progress
-multica project update <id> --lead "Lambda"
+dispatch project update <id> --title "New title" --status in_progress
+dispatch project update <id> --lead "Lambda"
 ```
 
 Flags: `--title`, `--description`, `--status`, `--icon`, `--lead`.
@@ -412,7 +412,7 @@ Flags: `--title`, `--description`, `--status`, `--icon`, `--lead`.
 ### Change Status
 
 ```bash
-multica project status <id> in_progress
+dispatch project status <id> in_progress
 ```
 
 Valid statuses: `planned`, `in_progress`, `paused`, `completed`, `cancelled`.
@@ -420,7 +420,7 @@ Valid statuses: `planned`, `in_progress`, `paused`, `completed`, `cancelled`.
 ### Delete Project
 
 ```bash
-multica project delete <id>
+dispatch project delete <id>
 ```
 
 ### Associating Issues with Projects
@@ -429,35 +429,35 @@ Use the `--project` flag on `issue create` / `issue update` to attach an issue t
 project, or on `issue list` to filter issues by project:
 
 ```bash
-multica issue create --title "Login bug" --project <project-id>
-multica issue update <issue-id> --project <project-id>
-multica issue list --project <project-id>
+dispatch issue create --title "Login bug" --project <project-id>
+dispatch issue update <issue-id> --project <project-id>
+dispatch issue list --project <project-id>
 ```
 
 ## Setup
 
 ```bash
-# One-command setup for Multica Cloud: configure, authenticate, and start the daemon
-multica setup
+# One-command setup for Dispatch Cloud: configure, authenticate, and start the daemon
+dispatch setup
 
 # For local self-hosted deployments
-multica setup self-host
+dispatch setup self-host
 
 # Custom ports
-multica setup self-host --port 9090 --frontend-port 4000
+dispatch setup self-host --port 9090 --frontend-port 4000
 
 # On-premise with custom domains
-multica setup self-host --server-url https://api.example.com --app-url https://app.example.com
+dispatch setup self-host --server-url https://api.example.com --app-url https://app.example.com
 ```
 
-`multica setup` configures the CLI, opens your browser for authentication, and starts the daemon — all in one step. Use `multica setup self-host` to connect to a self-hosted server instead of Multica Cloud.
+`dispatch setup` configures the CLI, opens your browser for authentication, and starts the daemon — all in one step. Use `dispatch setup self-host` to connect to a self-hosted server instead of Dispatch Cloud.
 
 ## Configuration
 
 ### View Config
 
 ```bash
-multica config show
+dispatch config show
 ```
 
 Shows config file path, server URL, app URL, and default workspace.
@@ -465,9 +465,9 @@ Shows config file path, server URL, app URL, and default workspace.
 ### Set Values
 
 ```bash
-multica config set server_url https://api.example.com
-multica config set app_url https://app.example.com
-multica config set workspace_id <workspace-id>
+dispatch config set server_url https://api.example.com
+dispatch config set app_url https://app.example.com
+dispatch config set workspace_id <workspace-id>
 ```
 
 ## Autopilot Commands
@@ -477,29 +477,29 @@ Autopilots are scheduled/triggered automations that dispatch agent tasks (either
 ### List Autopilots
 
 ```bash
-multica autopilot list
-multica autopilot list --status active --output json
+dispatch autopilot list
+dispatch autopilot list --status active --output json
 ```
 
 ### Get Autopilot Details
 
 ```bash
-multica autopilot get <id>
-multica autopilot get <id> --output json   # includes triggers
+dispatch autopilot get <id>
+dispatch autopilot get <id> --output json   # includes triggers
 ```
 
 ### Create / Update / Delete
 
 ```bash
-multica autopilot create \
+dispatch autopilot create \
   --title "Nightly bug triage" \
   --description "Scan todo issues and prioritize." \
   --agent "Lambda" \
   --mode create_issue
 
-multica autopilot update <id> --status paused
-multica autopilot update <id> --description "New prompt"
-multica autopilot delete <id>
+dispatch autopilot update <id> --status paused
+dispatch autopilot update <id> --description "New prompt"
+dispatch autopilot delete <id>
 ```
 
 `--mode` currently only accepts `create_issue` (creates a new issue on each run and assigns it to the agent). The server data model also defines `run_only`, but the daemon task path doesn't yet resolve a workspace for runs without an issue, so it's not exposed by the CLI. `--agent` accepts either a name or UUID.
@@ -507,22 +507,22 @@ multica autopilot delete <id>
 ### Manual Trigger
 
 ```bash
-multica autopilot trigger <id>            # Fires the autopilot once, returns the run
+dispatch autopilot trigger <id>            # Fires the autopilot once, returns the run
 ```
 
 ### Run History
 
 ```bash
-multica autopilot runs <id>
-multica autopilot runs <id> --limit 50 --output json
+dispatch autopilot runs <id>
+dispatch autopilot runs <id> --limit 50 --output json
 ```
 
 ### Schedule Triggers
 
 ```bash
-multica autopilot trigger-add <autopilot-id> --cron "0 9 * * 1-5" --timezone "America/New_York"
-multica autopilot trigger-update <autopilot-id> <trigger-id> --enabled=false
-multica autopilot trigger-delete <autopilot-id> <trigger-id>
+dispatch autopilot trigger-add <autopilot-id> --cron "0 9 * * 1-5" --timezone "America/New_York"
+dispatch autopilot trigger-update <autopilot-id> <trigger-id> --enabled=false
+dispatch autopilot trigger-delete <autopilot-id> <trigger-id>
 ```
 
 Only cron-based `schedule` triggers are currently exposed via the CLI. The data model also defines `webhook` and `api` kinds, but there is no server endpoint that fires them yet, so they're not surfaced here.
@@ -530,9 +530,9 @@ Only cron-based `schedule` triggers are currently exposed via the CLI. The data 
 ## Other Commands
 
 ```bash
-multica version              # Show CLI version and commit hash
-multica update               # Update to latest version
-multica agent list           # List agents in the current workspace
+dispatch version              # Show CLI version and commit hash
+dispatch update               # Update to latest version
+dispatch agent list           # List agents in the current workspace
 ```
 
 ## Output Formats
@@ -543,6 +543,6 @@ Most commands support `--output` with two formats:
 - `json` — structured JSON (useful for scripting and automation)
 
 ```bash
-multica issue list --output json
-multica daemon status --output json
+dispatch issue list --output json
+dispatch daemon status --output json
 ```

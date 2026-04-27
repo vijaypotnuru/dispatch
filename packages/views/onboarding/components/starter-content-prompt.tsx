@@ -4,15 +4,15 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "@multica/core/api";
-import { useAuthStore } from "@multica/core/auth";
-import { useNavigation } from "@multica/views/navigation";
-import { useCurrentWorkspace, paths } from "@multica/core/paths";
-import type { QuestionnaireAnswers } from "@multica/core/onboarding";
-import { pinKeys } from "@multica/core/pins";
-import { projectKeys } from "@multica/core/projects";
-import { issueKeys } from "@multica/core/issues/queries";
-import { Button } from "@multica/ui/components/ui/button";
+import { api } from "@dispatch/core/api";
+import { useAuthStore } from "@dispatch/core/auth";
+import { useNavigation } from "@dispatch/views/navigation";
+import { useCurrentWorkspace, paths } from "@dispatch/core/paths";
+import type { QuestionnaireAnswers } from "@dispatch/core/onboarding";
+import { pinKeys } from "@dispatch/core/pins";
+import { projectKeys } from "@dispatch/core/projects";
+import { issueKeys } from "@dispatch/core/issues/queries";
+import { Button } from "@dispatch/ui/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@multica/ui/components/ui/dialog";
+} from "@dispatch/ui/components/ui/dialog";
 import { buildImportPayload } from "../utils/starter-content-templates";
 
 /**
@@ -140,7 +140,7 @@ export function StarterContentPrompt() {
               Getting Started
             </span>{" "}
             project with short tasks that walk through how agents, issues,
-            and context work in Multica.
+            and context work in Dispatch.
           </DialogDescription>
         </DialogHeader>
 

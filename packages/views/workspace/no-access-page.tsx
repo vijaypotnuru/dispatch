@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@multica/ui/components/ui/button";
-import { paths } from "@multica/core/paths";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { paths } from "@dispatch/core/paths";
 import { useNavigation } from "../navigation";
 import { useLogout } from "../auth";
 import { DragStrip } from "../platform";
@@ -24,7 +24,7 @@ export function NoAccessPage() {
             Workspace not available
           </h1>
           <p className="max-w-md text-muted-foreground">
-            This workspace doesn't exist or you don't have access.
+            This workspace doesn&apos;t exist or you don&apos;t have access.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">

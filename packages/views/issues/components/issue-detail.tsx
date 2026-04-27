@@ -17,25 +17,25 @@ import {
   Users,
 } from "lucide-react";
 import { PageHeader } from "../../layout/page-header";
-import { Skeleton } from "@multica/ui/components/ui/skeleton";
-import { Button } from "@multica/ui/components/ui/button";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@multica/ui/components/ui/resizable";
-import { Sheet, SheetContent } from "@multica/ui/components/ui/sheet";
-import { useIsMobile } from "@multica/ui/hooks/use-mobile";
+import { Skeleton } from "@dispatch/ui/components/ui/skeleton";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@dispatch/ui/components/ui/resizable";
+import { Sheet, SheetContent } from "@dispatch/ui/components/ui/sheet";
+import { useIsMobile } from "@dispatch/ui/hooks/use-mobile";
 import { ContentEditor, type ContentEditorRef, TitleEditor, useFileDropZone, FileDropOverlay } from "../../editor";
-import { FileUploadButton } from "@multica/ui/components/common/file-upload-button";
+import { FileUploadButton } from "@dispatch/ui/components/common/file-upload-button";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@multica/ui/components/ui/tooltip";
-import { Popover, PopoverTrigger, PopoverContent } from "@multica/ui/components/ui/popover";
-import { Checkbox } from "@multica/ui/components/ui/checkbox";
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@multica/ui/components/ui/command";
-import { AvatarGroup, AvatarGroupCount } from "@multica/ui/components/ui/avatar";
+} from "@dispatch/ui/components/ui/tooltip";
+import { Popover, PopoverTrigger, PopoverContent } from "@dispatch/ui/components/ui/popover";
+import { Checkbox } from "@dispatch/ui/components/ui/checkbox";
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@dispatch/ui/components/ui/command";
+import { AvatarGroup, AvatarGroupCount } from "@dispatch/ui/components/ui/avatar";
 import { ActorAvatar } from "../../common/actor-avatar";
-import type { IssueStatus, IssuePriority, TimelineEntry } from "@multica/core/types";
-import { STATUS_CONFIG, PRIORITY_CONFIG } from "@multica/core/issues/config";
+import type { IssueStatus, IssuePriority, TimelineEntry } from "@dispatch/core/types";
+import { STATUS_CONFIG, PRIORITY_CONFIG } from "@dispatch/core/issues/config";
 import { StatusIcon, PriorityIcon, StatusPicker, PriorityPicker, DueDatePicker, AssigneePicker } from ".";
 import { IssueActionsDropdown, useIssueActions } from "../actions";
 import { ProjectPicker } from "../../projects/components/project-picker";
@@ -43,22 +43,22 @@ import { CommentCard } from "./comment-card";
 import { CommentInput } from "./comment-input";
 import { AgentLiveCard, TaskRunHistory } from "./agent-live-card";
 import { useQuery } from "@tanstack/react-query";
-import { useAuthStore } from "@multica/core/auth";
-import { useCurrentWorkspace, useWorkspacePaths } from "@multica/core/paths";
-import { useActorName } from "@multica/core/workspace/hooks";
-import { useWorkspaceId } from "@multica/core/hooks";
-import { issueListOptions, issueDetailOptions, childIssuesOptions, issueUsageOptions } from "@multica/core/issues/queries";
-import { memberListOptions, agentListOptions } from "@multica/core/workspace/queries";
-import { useRecentIssuesStore } from "@multica/core/issues/stores";
+import { useAuthStore } from "@dispatch/core/auth";
+import { useCurrentWorkspace, useWorkspacePaths } from "@dispatch/core/paths";
+import { useActorName } from "@dispatch/core/workspace/hooks";
+import { useWorkspaceId } from "@dispatch/core/hooks";
+import { issueListOptions, issueDetailOptions, childIssuesOptions, issueUsageOptions } from "@dispatch/core/issues/queries";
+import { memberListOptions, agentListOptions } from "@dispatch/core/workspace/queries";
+import { useRecentIssuesStore } from "@dispatch/core/issues/stores";
 import { useIssueTimeline } from "../hooks/use-issue-timeline";
 import { useIssueReactions } from "../hooks/use-issue-reactions";
 import { useIssueSubscribers } from "../hooks/use-issue-subscribers";
-import { ReactionBar } from "@multica/ui/components/common/reaction-bar";
-import { useFileUpload } from "@multica/core/hooks/use-file-upload";
-import { api } from "@multica/core/api";
-import { useModalStore } from "@multica/core/modals";
-import { timeAgo } from "@multica/core/utils";
-import { cn } from "@multica/ui/lib/utils";
+import { ReactionBar } from "@dispatch/ui/components/common/reaction-bar";
+import { useFileUpload } from "@dispatch/core/hooks/use-file-upload";
+import { api } from "@dispatch/core/api";
+import { useModalStore } from "@dispatch/core/modals";
+import { timeAgo } from "@dispatch/core/utils";
+import { cn } from "@dispatch/ui/lib/utils";
 
 import { ProgressRing } from "./progress-ring";
 
@@ -168,7 +168,7 @@ interface IssueDetailProps {
 // IssueDetail
 // ---------------------------------------------------------------------------
 
-export function IssueDetail({ issueId, onDelete, defaultSidebarOpen = true, layoutId = "multica_issue_detail_layout", highlightCommentId }: IssueDetailProps) {
+export function IssueDetail({ issueId, onDelete, defaultSidebarOpen = true, layoutId = "dispatch_issue_detail_layout", highlightCommentId }: IssueDetailProps) {
   const id = issueId;
   const router = useNavigation();
   const user = useAuthStore((s) => s.user);

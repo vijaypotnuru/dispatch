@@ -10,10 +10,10 @@ import {
   EyeOff,
   Lock,
 } from "lucide-react";
-import type { Agent } from "@multica/core/types";
-import { Button } from "@multica/ui/components/ui/button";
-import { Input } from "@multica/ui/components/ui/input";
-import { Label } from "@multica/ui/components/ui/label";
+import type { Agent } from "@dispatch/core/types";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Label } from "@dispatch/ui/components/ui/label";
 import { toast } from "sonner";
 
 let nextEnvId = 0;

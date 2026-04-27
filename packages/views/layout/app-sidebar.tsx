@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { cn } from "@multica/ui/lib/utils";
+import { cn } from "@dispatch/ui/lib/utils";
 import { AppLink, useNavigation } from "../navigation";
 import { HelpLauncher } from "./help-launcher";
 import {
@@ -35,11 +35,11 @@ import {
   Zap,
 } from "lucide-react";
 import { WorkspaceAvatar } from "../workspace/workspace-avatar";
-import { ActorAvatar } from "@multica/ui/components/common/actor-avatar";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@multica/ui/components/ui/tooltip";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@multica/ui/components/ui/collapsible";
+import { ActorAvatar } from "@dispatch/ui/components/common/actor-avatar";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@dispatch/ui/components/ui/tooltip";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@dispatch/ui/components/ui/collapsible";
 import { StatusIcon } from "../issues/components/status-icon";
-import { useIssueDraftStore } from "@multica/core/issues/stores/draft-store";
+import { useIssueDraftStore } from "@dispatch/core/issues/stores/draft-store";
 import {
   Sidebar,
   SidebarContent,
@@ -52,7 +52,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@multica/ui/components/ui/sidebar";
+} from "@dispatch/ui/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,22 +61,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@multica/ui/components/ui/dropdown-menu";
-import { useAuthStore } from "@multica/core/auth";
-import { useCurrentWorkspace, useWorkspacePaths, paths } from "@multica/core/paths";
-import { workspaceListOptions, myInvitationListOptions, workspaceKeys } from "@multica/core/workspace/queries";
+} from "@dispatch/ui/components/ui/dropdown-menu";
+import { useAuthStore } from "@dispatch/core/auth";
+import { useCurrentWorkspace, useWorkspacePaths, paths } from "@dispatch/core/paths";
+import { workspaceListOptions, myInvitationListOptions, workspaceKeys } from "@dispatch/core/workspace/queries";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { inboxKeys, deduplicateInboxItems } from "@multica/core/inbox/queries";
-import { chatSessionsOptions, pendingChatTasksOptions } from "@multica/core/chat/queries";
+import { inboxKeys, deduplicateInboxItems } from "@dispatch/core/inbox/queries";
+import { chatSessionsOptions, pendingChatTasksOptions } from "@dispatch/core/chat/queries";
 import { useAnchorTracker } from "../chat/components/context-anchor";
-import { api } from "@multica/core/api";
-import { useModalStore } from "@multica/core/modals";
-import { useMyRuntimesNeedUpdate } from "@multica/core/runtimes/hooks";
-import { pinListOptions } from "@multica/core/pins/queries";
-import { useDeletePin, useReorderPins } from "@multica/core/pins/mutations";
-import { issueDetailOptions } from "@multica/core/issues/queries";
-import { projectDetailOptions } from "@multica/core/projects/queries";
-import type { PinnedItem } from "@multica/core/types";
+import { api } from "@dispatch/core/api";
+import { useModalStore } from "@dispatch/core/modals";
+import { useMyRuntimesNeedUpdate } from "@dispatch/core/runtimes/hooks";
+import { pinListOptions } from "@dispatch/core/pins/queries";
+import { useDeletePin, useReorderPins } from "@dispatch/core/pins/mutations";
+import { issueDetailOptions } from "@dispatch/core/issues/queries";
+import { projectDetailOptions } from "@dispatch/core/projects/queries";
+import type { PinnedItem } from "@dispatch/core/types";
 import { useLogout } from "../auth";
 
 // Stable empty arrays for query defaults. Using an inline `= []` default on
@@ -449,7 +449,7 @@ export function AppSidebar({ topSlot, searchSlot, headerClassName, headerStyle }
                     <SidebarMenuButton>
                       <WorkspaceAvatar name={workspace?.name ?? "M"} size="sm" />
                       <span className="flex-1 truncate font-medium">
-                        {workspace?.name ?? "Multica"}
+                        {workspace?.name ?? "Dispatch"}
                       </span>
                       <ChevronDown className="size-3 text-muted-foreground" />
                     </SidebarMenuButton>

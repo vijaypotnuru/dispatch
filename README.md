@@ -75,14 +75,14 @@ irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install
 Then configure, authenticate, and start the daemon in one command:
 
 ```bash
-multica setup          # Connect to Dispatch Cloud, log in, start daemon
+dispatch setup          # Connect to Dispatch Cloud, log in, start daemon
 ```
 
 > **Self-hosting?** Add `--with-server` to deploy a full Dispatch server on your machine:
 >
 > ```bash
 > curl -fsSL https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.sh | bash -s -- --with-server
-> multica setup self-host
+> dispatch setup self-host
 > ```
 >
 > This pulls the official Dispatch images from GHCR (latest stable by default). Requires Docker. See the [Self-Hosting Guide](SELF_HOSTING.md) for details.
@@ -95,7 +95,7 @@ multica setup          # Connect to Dispatch Cloud, log in, start daemon
 ### 1. Set up and start the daemon
 
 ```bash
-multica setup           # Configure, authenticate, and start the daemon
+dispatch setup           # Configure, authenticate, and start the daemon
 ```
 
 The daemon runs in the background and auto-detects agent CLIs (`claude`, `codex`, `openclaw`, `opencode`, `hermes`, `gemini`, `pi`, `cursor-agent`) on your PATH.
@@ -112,7 +112,7 @@ Go to **Settings → Agents** and click **New Agent**. Pick the runtime you just
 
 ### 4. Assign your first task
 
-Create an issue from the board (or via `multica issue create`), then assign it to your new agent. The agent will automatically pick up the task, execute it on your runtime, and report progress — just like a human teammate.
+Create an issue from the board (or via `dispatch issue create`), then assign it to your new agent. The agent will automatically pick up the task, execute it on your runtime, and report progress — just like a human teammate.
 
 ---
 
@@ -133,18 +133,18 @@ Create an issue from the board (or via `multica issue create`), then assign it t
 
 ## CLI
 
-The current `multica` CLI connects your local machine to Dispatch — authenticate, manage workspaces, and run the agent daemon.
+The current `dispatch` CLI connects your local machine to Dispatch — authenticate, manage workspaces, and run the agent daemon.
 
 | Command | Description |
 |---------|-------------|
-| `multica login` | Authenticate (opens browser) |
-| `multica daemon start` | Start the local agent runtime |
-| `multica daemon status` | Check daemon status |
-| `multica setup` | One-command setup for Dispatch Cloud (configure + login + start daemon) |
-| `multica setup self-host` | Same, but for self-hosted deployments |
-| `multica issue list` | List issues in your workspace |
-| `multica issue create` | Create a new issue |
-| `multica update` | Update to the latest version |
+| `dispatch login` | Authenticate (opens browser) |
+| `dispatch daemon start` | Start the local agent runtime |
+| `dispatch daemon status` | Check daemon status |
+| `dispatch setup` | One-command setup for Dispatch Cloud (configure + login + start daemon) |
+| `dispatch setup self-host` | Same, but for self-hosted deployments |
+| `dispatch issue list` | List issues in your workspace |
+| `dispatch issue create` | Create a new issue |
+| `dispatch update` | Update to the latest version |
 
 See the [CLI and Daemon Guide](CLI_AND_DAEMON.md) for the full command reference.
 

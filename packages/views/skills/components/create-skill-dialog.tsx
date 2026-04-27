@@ -14,29 +14,29 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "@multica/core/api";
-import type { Skill } from "@multica/core/types";
-import { useWorkspaceId } from "@multica/core/hooks";
+import { api } from "@dispatch/core/api";
+import type { Skill } from "@dispatch/core/types";
+import { useWorkspaceId } from "@dispatch/core/hooks";
 import {
   skillDetailOptions,
   workspaceKeys,
-} from "@multica/core/workspace/queries";
+} from "@dispatch/core/workspace/queries";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
-} from "@multica/ui/components/ui/dialog";
+} from "@dispatch/ui/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@multica/ui/components/ui/tooltip";
-import { Button } from "@multica/ui/components/ui/button";
-import { Input } from "@multica/ui/components/ui/input";
-import { Label } from "@multica/ui/components/ui/label";
-import { Textarea } from "@multica/ui/components/ui/textarea";
-import { useScrollFade } from "@multica/ui/hooks/use-scroll-fade";
-import { cn } from "@multica/ui/lib/utils";
+} from "@dispatch/ui/components/ui/tooltip";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Label } from "@dispatch/ui/components/ui/label";
+import { Textarea } from "@dispatch/ui/components/ui/textarea";
+import { useScrollFade } from "@dispatch/ui/hooks/use-scroll-fade";
+import { cn } from "@dispatch/ui/lib/utils";
 import { openExternal } from "../../platform";
 import { RuntimeLocalSkillImportPanel } from "./runtime-local-skill-import-panel";
 

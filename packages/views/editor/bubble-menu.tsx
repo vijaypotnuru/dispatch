@@ -33,22 +33,22 @@ import type { Editor } from "@tiptap/core";
 import { posToDOMRect } from "@tiptap/core";
 import { NodeSelection } from "@tiptap/pm/state";
 import { toast } from "sonner";
-import { useCreateIssue } from "@multica/core/issues/mutations";
-import { Toggle } from "@multica/ui/components/ui/toggle";
-import { Separator } from "@multica/ui/components/ui/separator";
+import { useCreateIssue } from "@dispatch/core/issues/mutations";
+import { Toggle } from "@dispatch/ui/components/ui/toggle";
+import { Separator } from "@dispatch/ui/components/ui/separator";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
-} from "@multica/ui/components/ui/tooltip";
+} from "@dispatch/ui/components/ui/tooltip";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@multica/ui/components/ui/popover";
-import { Input } from "@multica/ui/components/ui/input";
-import { Button } from "@multica/ui/components/ui/button";
+} from "@dispatch/ui/components/ui/popover";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Button } from "@dispatch/ui/components/ui/button";
 import {
   Bold,
   Italic,

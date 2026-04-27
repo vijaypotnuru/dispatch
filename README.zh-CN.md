@@ -75,14 +75,14 @@ irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install
 安装完成后，一条命令完成配置、认证和启动：
 
 ```bash
-multica setup          # 连接 Dispatch Cloud，登录，启动 daemon
+dispatch setup          # 连接 Dispatch Cloud，登录，启动 daemon
 ```
 
 > **自部署？** 加上 `--with-server` 在本地部署完整的 dispatch 服务：
 >
 > ```bash
 > curl -fsSL https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.sh | bash -s -- --with-server
-> multica setup self-host
+> dispatch setup self-host
 > ```
 >
 > 需要 Docker。详见 [自部署指南](SELF_HOSTING.md)。
@@ -96,7 +96,7 @@ multica setup          # 连接 Dispatch Cloud，登录，启动 daemon
 ### 1. 配置并启动 daemon
 
 ```bash
-multica setup           # 配置、认证、启动 daemon（一条命令搞定）
+dispatch setup           # 配置、认证、启动 daemon（一条命令搞定）
 ```
 
 daemon 在后台运行，保持你的机器与 dispatch 的连接。它会自动检测 PATH 中可用的 Agent CLI（`claude`、`codex`、`openclaw`、`opencode`、`hermes`、`gemini`、`pi`、`cursor-agent`）。
@@ -113,7 +113,7 @@ daemon 在后台运行，保持你的机器与 dispatch 的连接。它会自动
 
 ### 4. 分配你的第一个任务
 
-在看板上创建一个 Issue（或通过 `multica issue create` 命令创建），然后将其分配给你的新 Agent。Agent 会自动接手任务、在你的 Runtime 上执行、并实时汇报进度——就像一个真正的队友一样。
+在看板上创建一个 Issue（或通过 `dispatch issue create` 命令创建），然后将其分配给你的新 Agent。Agent 会自动接手任务、在你的 Runtime 上执行、并实时汇报进度——就像一个真正的队友一样。
 
 大功告成！你的 Agent 现在是团队的一员了。 🎉
 

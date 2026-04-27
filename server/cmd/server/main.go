@@ -9,12 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/multica-ai/multica/server/internal/analytics"
-	"github.com/multica-ai/multica/server/internal/events"
-	"github.com/multica-ai/multica/server/internal/logger"
-	"github.com/multica-ai/multica/server/internal/realtime"
-	"github.com/multica-ai/multica/server/internal/service"
-	db "github.com/multica-ai/multica/server/pkg/db/generated"
+	"github.com/vijaypotnuru/dispatch/server/internal/analytics"
+	"github.com/vijaypotnuru/dispatch/server/internal/events"
+	"github.com/vijaypotnuru/dispatch/server/internal/logger"
+	"github.com/vijaypotnuru/dispatch/server/internal/realtime"
+	"github.com/vijaypotnuru/dispatch/server/internal/service"
+	db "github.com/vijaypotnuru/dispatch/server/pkg/db/generated"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -36,7 +36,7 @@ func main() {
 
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
-		dbURL = "postgres://multica:multica@localhost:5432/multica?sslmode=disable"
+		dbURL = "postgres://dispatch:dispatch@localhost:5432/dispatch?sslmode=disable"
 	}
 
 	// Connect to database

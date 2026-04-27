@@ -12,9 +12,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@multica/ui/components/ui/chart";
-import { api } from "@multica/core/api";
-import type { RuntimeHourlyActivity } from "@multica/core/types";
+} from "@dispatch/ui/components/ui/chart";
+import { api } from "@dispatch/core/api";
+import type { RuntimeHourlyActivity } from "@dispatch/core/types";
 
 const hourlyChartConfig = {
   count: { label: "Tasks", color: "var(--color-chart-2)" },

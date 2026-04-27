@@ -3,9 +3,9 @@ import type { DataRouter } from "react-router-dom";
 import {
   NavigationProvider,
   type NavigationAdapter,
-} from "@multica/views/navigation";
-import { useAuthStore } from "@multica/core/auth";
-import { isReservedSlug } from "@multica/core/paths";
+} from "@dispatch/views/navigation";
+import { useAuthStore } from "@dispatch/core/auth";
+import { isReservedSlug } from "@dispatch/core/paths";
 import {
   useTabStore,
   resolveRouteIcon,
@@ -195,7 +195,7 @@ function currentActiveTab() {
  * Per-tab navigation provider rendered inside each tab's Activity wrapper.
  * Subscribes to the tab's own router for up-to-date pathname.
  *
- * This is what @multica/views page components read via useNavigation().
+ * This is what @dispatch/views page components read via useNavigation().
  */
 export function TabNavigationProvider({
   router,

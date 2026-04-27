@@ -18,10 +18,10 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/multica-ai/multica/server/internal/analytics"
-	"github.com/multica-ai/multica/server/internal/auth"
-	"github.com/multica-ai/multica/server/internal/logger"
-	db "github.com/multica-ai/multica/server/pkg/db/generated"
+	"github.com/vijaypotnuru/dispatch/server/internal/analytics"
+	"github.com/vijaypotnuru/dispatch/server/internal/auth"
+	"github.com/vijaypotnuru/dispatch/server/internal/logger"
+	db "github.com/vijaypotnuru/dispatch/server/pkg/db/generated"
 )
 
 // SignupError represents signup restriction errors
@@ -151,7 +151,7 @@ func (h *Handler) findOrCreateUser(ctx context.Context, email string) (user db.U
 const signupSourceMaxLen = 512
 
 func signupSourceFromRequest(r *http.Request) string {
-	c, err := r.Cookie("multica_signup_source")
+	c, err := r.Cookie("dispatch_signup_source")
 	if err != nil || c == nil {
 		return ""
 	}

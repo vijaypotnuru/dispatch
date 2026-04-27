@@ -22,23 +22,23 @@ import type {
   Skill,
   SkillFile,
   UpdateSkillRequest,
-} from "@multica/core/types";
+} from "@dispatch/core/types";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "@multica/core/api";
-import { timeAgo } from "@multica/core/utils";
-import { useWorkspaceId } from "@multica/core/hooks";
-import { useWorkspacePaths } from "@multica/core/paths";
+import { api } from "@dispatch/core/api";
+import { timeAgo } from "@dispatch/core/utils";
+import { useWorkspaceId } from "@dispatch/core/hooks";
+import { useWorkspacePaths } from "@dispatch/core/paths";
 import {
   agentListOptions,
   memberListOptions,
   selectSkillAssignments,
   skillDetailOptions,
   workspaceKeys,
-} from "@multica/core/workspace/queries";
-import { runtimeListOptions } from "@multica/core/runtimes";
-import { ActorAvatar } from "@multica/ui/components/common/actor-avatar";
-import { Button, buttonVariants } from "@multica/ui/components/ui/button";
+} from "@dispatch/core/workspace/queries";
+import { runtimeListOptions } from "@dispatch/core/runtimes";
+import { ActorAvatar } from "@dispatch/ui/components/common/actor-avatar";
+import { Button, buttonVariants } from "@dispatch/ui/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -46,16 +46,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@multica/ui/components/ui/dialog";
-import { Input } from "@multica/ui/components/ui/input";
-import { Label } from "@multica/ui/components/ui/label";
-import { Skeleton } from "@multica/ui/components/ui/skeleton";
-import { Textarea } from "@multica/ui/components/ui/textarea";
+} from "@dispatch/ui/components/ui/dialog";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Label } from "@dispatch/ui/components/ui/label";
+import { Skeleton } from "@dispatch/ui/components/ui/skeleton";
+import { Textarea } from "@dispatch/ui/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@multica/ui/components/ui/tooltip";
+} from "@dispatch/ui/components/ui/tooltip";
 import { AppLink, useNavigation } from "../../navigation";
 import { useCanEditSkill } from "../hooks/use-can-edit-skill";
 import { readOrigin, totalFileCount, type OriginInfo } from "../lib/origin";

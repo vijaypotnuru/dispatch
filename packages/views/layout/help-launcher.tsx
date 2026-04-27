@@ -6,11 +6,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@multica/ui/components/ui/dropdown-menu";
-import { useModalStore } from "@multica/core/modals";
+} from "@dispatch/ui/components/ui/dropdown-menu";
+import { useModalStore } from "@dispatch/core/modals";
 
-const DOCS_URL = "https://multica.ai/docs";
-const CHANGELOG_URL = "https://multica.ai/changelog";
+const DOCS_URL = "https://dispatch.dev/docs";
+const CHANGELOG_URL = "https://dispatch.dev/changelog";
 
 export function HelpLauncher() {
   return (

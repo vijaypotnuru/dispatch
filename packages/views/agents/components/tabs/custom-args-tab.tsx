@@ -7,11 +7,11 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import type { Agent, RuntimeDevice } from "@multica/core/types";
-import { createSafeId } from "@multica/core/utils";
-import { Button } from "@multica/ui/components/ui/button";
-import { Input } from "@multica/ui/components/ui/input";
-import { Label } from "@multica/ui/components/ui/label";
+import type { Agent, RuntimeDevice } from "@dispatch/core/types";
+import { createSafeId } from "@dispatch/core/utils";
+import { Button } from "@dispatch/ui/components/ui/button";
+import { Input } from "@dispatch/ui/components/ui/input";
+import { Label } from "@dispatch/ui/components/ui/label";
 import { toast } from "sonner";
 
 interface ArgEntry {
@@ -82,7 +82,7 @@ export function CustomArgsTab({
           </Label>
           <p className="text-xs text-muted-foreground mt-0.5">
             Additional CLI arguments appended to the agent command at launch.
-            Supported flags depend on the agent's CLI.
+            Supported flags depend on the agent&apos;s CLI.
           </p>
           {launchHeader && (
             <p className="mt-2 text-xs text-muted-foreground">

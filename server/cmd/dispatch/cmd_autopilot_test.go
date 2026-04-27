@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/multica-ai/multica/server/internal/cli"
+	"github.com/vijaypotnuru/dispatch/server/internal/cli"
 )
 
 func TestResolveAgent(t *testing.T) {

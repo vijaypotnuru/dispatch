@@ -10,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/multica-ai/multica/server/internal/cli"
+	"github.com/vijaypotnuru/dispatch/server/internal/cli"
 )
 
 var projectCmd = &cobra.Command{

@@ -26,27 +26,27 @@ import {
 import { Command as CommandPrimitive } from "cmdk";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import type { SearchIssueResult, SearchProjectResult } from "@multica/core/types";
-import { api } from "@multica/core/api";
-import { useRecentIssuesStore } from "@multica/core/issues/stores";
-import { issueDetailOptions } from "@multica/core/issues/queries";
-import { useWorkspaceId } from "@multica/core";
-import { paths, useCurrentWorkspace, useWorkspacePaths } from "@multica/core/paths";
-import type { WorkspacePaths } from "@multica/core/paths";
-import { useModalStore } from "@multica/core/modals";
-import { workspaceListOptions } from "@multica/core/workspace/queries";
+import type { SearchIssueResult, SearchProjectResult } from "@dispatch/core/types";
+import { api } from "@dispatch/core/api";
+import { useRecentIssuesStore } from "@dispatch/core/issues/stores";
+import { issueDetailOptions } from "@dispatch/core/issues/queries";
+import { useWorkspaceId } from "@dispatch/core";
+import { paths, useCurrentWorkspace, useWorkspacePaths } from "@dispatch/core/paths";
+import type { WorkspacePaths } from "@dispatch/core/paths";
+import { useModalStore } from "@dispatch/core/modals";
+import { workspaceListOptions } from "@dispatch/core/workspace/queries";
 import { StatusIcon } from "../issues/components";
-import { STATUS_CONFIG } from "@multica/core/issues/config";
-import { PROJECT_STATUS_CONFIG } from "@multica/core/projects/config";
-import type { ProjectStatus } from "@multica/core/types";
+import { STATUS_CONFIG } from "@dispatch/core/issues/config";
+import { PROJECT_STATUS_CONFIG } from "@dispatch/core/projects/config";
+import type { ProjectStatus } from "@dispatch/core/types";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@multica/ui/components/ui/dialog";
-import { useTheme } from "@multica/ui/components/common/theme-provider";
+} from "@dispatch/ui/components/ui/dialog";
+import { useTheme } from "@dispatch/ui/components/common/theme-provider";
 import { useNavigation } from "../navigation";
 import { useSearchStore } from "./search-store";
 

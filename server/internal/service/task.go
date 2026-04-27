@@ -12,13 +12,13 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/multica-ai/multica/server/internal/events"
-	"github.com/multica-ai/multica/server/internal/mention"
-	"github.com/multica-ai/multica/server/internal/realtime"
-	"github.com/multica-ai/multica/server/internal/util"
-	db "github.com/multica-ai/multica/server/pkg/db/generated"
-	"github.com/multica-ai/multica/server/pkg/protocol"
-	"github.com/multica-ai/multica/server/pkg/redact"
+	"github.com/vijaypotnuru/dispatch/server/internal/events"
+	"github.com/vijaypotnuru/dispatch/server/internal/mention"
+	"github.com/vijaypotnuru/dispatch/server/internal/realtime"
+	"github.com/vijaypotnuru/dispatch/server/internal/util"
+	db "github.com/vijaypotnuru/dispatch/server/pkg/db/generated"
+	"github.com/vijaypotnuru/dispatch/server/pkg/protocol"
+	"github.com/vijaypotnuru/dispatch/server/pkg/redact"
 )
 
 type TaskService struct {
@@ -34,7 +34,7 @@ func NewTaskService(q *db.Queries, tx TxStarter, hub *realtime.Hub, bus *events.
 
 // EnqueueTaskForIssue creates a queued task for an agent-assigned issue.
 // No context snapshot is stored — the agent fetches all data it needs at
-// runtime via the multica CLI.
+// runtime via the dispatch CLI.
 func (s *TaskService) EnqueueTaskForIssue(ctx context.Context, issue db.Issue, triggerCommentID ...pgtype.UUID) (db.AgentTaskQueue, error) {
 	if !issue.AssigneeID.Valid {
 		slog.Error("task enqueue failed", "issue_id", util.UUIDToString(issue.ID), "error", "issue has no assignee")

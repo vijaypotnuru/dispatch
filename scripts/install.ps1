@@ -1,10 +1,10 @@
-# Multica installer for Windows — one command to get started.
+# Dispatch installer for Windows — one command to get started.
 #
-# Install CLI (default): connects to multica.ai
-#   irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps1 | iex
+# Install CLI (default): connects to dispatch.dev
+#   irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.ps1 | iex
 #
-# Self-host: starts a local Multica server + installs CLI + configures
-#   $env:MULTICA_MODE="local"; irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps1 | iex
+# Self-host: starts a local Dispatch server + installs CLI + configures
+#   $env:DISPATCH_MODE="local"; irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.ps1 | iex
 #
 
 $ErrorActionPreference = "Stop"
@@ -12,10 +12,10 @@ $ErrorActionPreference = "Stop"
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-$RepoUrl       = "https://github.com/multica-ai/multica.git"
-$RepoWebUrl    = "https://github.com/multica-ai/multica"
-$DefaultInstallDir = Join-Path $env:USERPROFILE ".multica\server"
-$InstallDir    = if ($env:MULTICA_INSTALL_DIR) { $env:MULTICA_INSTALL_DIR } else { $DefaultInstallDir }
+$RepoUrl       = "https://github.com/vijaypotnuru/dispatch.git"
+$RepoWebUrl    = "https://github.com/vijaypotnuru/dispatch"
+$DefaultInstallDir = Join-Path $env:USERPROFILE ".dispatch\server"
+$InstallDir    = if ($env:DISPATCH_INSTALL_DIR) { $env:DISPATCH_INSTALL_DIR } else { $DefaultInstallDir }
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -32,7 +32,7 @@ function Test-CommandExists {
 
 function Get-LatestVersion {
     try {
-        $release = Invoke-RestMethod -Uri "https://api.github.com/repos/multica-ai/multica/releases/latest" -ErrorAction Stop
+        $release = Invoke-RestMethod -Uri "https://api.github.com/repos/vijaypotnuru/dispatch/releases/latest" -ErrorAction Stop
         return $release.tag_name
     } catch {
         return $null
@@ -40,8 +40,8 @@ function Get-LatestVersion {
 }
 
 function Get-SelfHostRef {
-    if ($env:MULTICA_SELFHOST_REF) {
-        return $env:MULTICA_SELFHOST_REF
+    if ($env:DISPATCH_SELFHOST_REF) {
+        return $env:DISPATCH_SELFHOST_REF
     }
 
     $latest = Get-LatestVersion
@@ -92,10 +92,10 @@ function Pull-OfficialSelfHostImages {
 # CLI Installation
 # ---------------------------------------------------------------------------
 function Install-CliBinary {
-    Write-Info "Installing Multica CLI from GitHub Releases..."
+    Write-Info "Installing Dispatch CLI from GitHub Releases..."
 
     if (-not [Environment]::Is64BitOperatingSystem) {
-        Write-Fail "Multica requires a 64-bit Windows installation."
+        Write-Fail "Dispatch requires a 64-bit Windows installation."
     }
 
     # Distinguish amd64 vs arm64 — Is64BitOperatingSystem is true for both.
@@ -134,27 +134,27 @@ function Install-CliBinary {
     }
 
     $version = $latest.TrimStart('v')
-    $url = "https://github.com/multica-ai/multica/releases/download/$latest/multica-cli-$version-windows-$arch.zip"
-    $tmpDir = Join-Path ([System.IO.Path]::GetTempPath()) "multica-install"
+    $url = "https://github.com/vijaypotnuru/dispatch/releases/download/$latest/dispatch-cli-$version-windows-$arch.zip"
+    $tmpDir = Join-Path ([System.IO.Path]::GetTempPath()) "dispatch-install"
 
     if (Test-Path $tmpDir) { Remove-Item $tmpDir -Recurse -Force }
     New-Item -ItemType Directory -Path $tmpDir | Out-Null
 
     Write-Info "Downloading $url ..."
     try {
-        Invoke-WebRequest -Uri $url -OutFile (Join-Path $tmpDir "multica.zip") -UseBasicParsing
+        Invoke-WebRequest -Uri $url -OutFile (Join-Path $tmpDir "dispatch.zip") -UseBasicParsing
     } catch {
         Remove-Item $tmpDir -Recurse -Force
         Write-Fail "Failed to download CLI binary: $_"
     }
 
     # Verify SHA256 checksum
-    $checksumUrl = "https://github.com/multica-ai/multica/releases/download/$latest/checksums.txt"
+    $checksumUrl = "https://github.com/vijaypotnuru/dispatch/releases/download/$latest/checksums.txt"
     try {
         $checksums = Invoke-WebRequest -Uri $checksumUrl -UseBasicParsing -ErrorAction Stop
-        $zipFile = Join-Path $tmpDir "multica.zip"
+        $zipFile = Join-Path $tmpDir "dispatch.zip"
         $actualHash = (Get-FileHash -Path $zipFile -Algorithm SHA256).Hash.ToLower()
-        $expectedLine = ($checksums.Content -split "`n") | Where-Object { $_ -match "multica-cli-$version-windows-$arch\.zip" } | Select-Object -First 1
+        $expectedLine = ($checksums.Content -split "`n") | Where-Object { $_ -match "dispatch-cli-$version-windows-$arch\.zip" } | Select-Object -First 1
         if ($expectedLine) {
             $expectedHash = ($expectedLine -split "\s+")[0].ToLower()
             if ($actualHash -ne $expectedHash) {
@@ -169,27 +169,27 @@ function Install-CliBinary {
         Write-Warn "Could not download checksums.txt — skipping verification."
     }
 
-    Expand-Archive -Path (Join-Path $tmpDir "multica.zip") -DestinationPath $tmpDir -Force
+    Expand-Archive -Path (Join-Path $tmpDir "dispatch.zip") -DestinationPath $tmpDir -Force
 
-    $binDir = Join-Path $env:USERPROFILE ".multica\bin"
+    $binDir = Join-Path $env:USERPROFILE ".dispatch\bin"
     if (-not (Test-Path $binDir)) {
         New-Item -ItemType Directory -Path $binDir -Force | Out-Null
     }
 
-    $exeSrc = Join-Path $tmpDir "multica.exe"
+    $exeSrc = Join-Path $tmpDir "dispatch.exe"
     if (-not (Test-Path $exeSrc)) {
-        $exeSrc = Get-ChildItem -Path $tmpDir -Filter "multica.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        $exeSrc = Get-ChildItem -Path $tmpDir -Filter "dispatch.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
     }
     if (-not $exeSrc -or -not (Test-Path $exeSrc)) {
         Remove-Item $tmpDir -Recurse -Force
-        Write-Fail "multica.exe not found in downloaded archive."
+        Write-Fail "dispatch.exe not found in downloaded archive."
     }
 
-    Copy-Item $exeSrc (Join-Path $binDir "multica.exe") -Force
+    Copy-Item $exeSrc (Join-Path $binDir "dispatch.exe") -Force
     Remove-Item $tmpDir -Recurse -Force
 
     Add-ToUserPath $binDir
-    Write-Ok "Multica CLI installed to $binDir\multica.exe"
+    Write-Ok "Dispatch CLI installed to $binDir\dispatch.exe"
 }
 
 function Add-ToUserPath {
@@ -208,8 +208,8 @@ function Add-ToUserPath {
 }
 
 function Install-Cli {
-    if (Test-CommandExists "multica") {
-        $currentVer = (multica version 2>$null) -replace '.*?(v[\d.]+).*','$1'
+    if (Test-CommandExists "dispatch") {
+        $currentVer = (dispatch version 2>$null) -replace '.*?(v[\d.]+).*','$1'
         $latestVer = Get-LatestVersion
 
         $currentCmp = $currentVer -replace '^v',''
@@ -225,22 +225,22 @@ function Install-Cli {
         }
 
         if ($isUpToDate) {
-            Write-Ok "Multica CLI is up to date ($currentVer)"
+            Write-Ok "Dispatch CLI is up to date ($currentVer)"
             return
         }
 
-        Write-Info "Multica CLI $currentVer installed, latest is $latestVer - upgrading..."
+        Write-Info "Dispatch CLI $currentVer installed, latest is $latestVer - upgrading..."
         Install-CliBinary
 
-        $newVer = (multica version 2>$null) -replace '.*?(v[\d.]+).*','$1'
-        Write-Ok "Multica CLI upgraded ($currentVer -> $newVer)"
+        $newVer = (dispatch version 2>$null) -replace '.*?(v[\d.]+).*','$1'
+        Write-Ok "Dispatch CLI upgraded ($currentVer -> $newVer)"
         return
     }
 
     Install-CliBinary
 
-    if (-not (Test-CommandExists "multica")) {
-        Write-Fail "CLI installed but 'multica' not found on PATH. Restart your terminal and try again."
+    if (-not (Test-CommandExists "dispatch")) {
+        Write-Fail "CLI installed but 'dispatch' not found on PATH. Restart your terminal and try again."
     }
 }
 
@@ -250,12 +250,12 @@ function Install-Cli {
 function Test-Docker {
     if (-not (Test-CommandExists "docker")) {
         Write-Fail @"
-Docker is not installed. Multica self-hosting requires Docker and Docker Compose.
+Docker is not installed. Dispatch self-hosting requires Docker and Docker Compose.
 
 Install Docker Desktop for Windows:
   https://docs.docker.com/desktop/install/windows-install/
 
-After installing Docker, re-run this script with `$env:MULTICA_MODE="local"`.
+After installing Docker, re-run this script with `$env:DISPATCH_MODE="local"`.
 "@
     }
 
@@ -272,7 +272,7 @@ After installing Docker, re-run this script with `$env:MULTICA_MODE="local"`.
 # Server setup (self-host / local)
 # ---------------------------------------------------------------------------
 function Install-Server {
-    Write-Info "Setting up Multica server..."
+    Write-Info "Setting up Dispatch server..."
     $serverRef = Get-SelfHostRef
     Write-Info "Using self-host assets from $serverRef..."
 
@@ -280,7 +280,7 @@ function Install-Server {
         Write-Info "Updating existing installation at $InstallDir..."
         Write-Warn "Any local changes in $InstallDir will be overwritten."
     } else {
-        Write-Info "Cloning Multica repository..."
+        Write-Info "Cloning Dispatch repository..."
         if (-not (Test-CommandExists "git")) {
             Write-Fail "Git is not installed. Please install git and re-run."
         }
@@ -309,9 +309,9 @@ function Install-Server {
         Write-Ok "Using existing .env"
     }
 
-    Write-Info "Pulling official Multica images..."
+    Write-Info "Pulling official Dispatch images..."
     Pull-OfficialSelfHostImages
-    Write-Info "Starting Multica services (this may take a few minutes on first run)..."
+    Write-Info "Starting Dispatch services (this may take a few minutes on first run)..."
     docker compose -f docker-compose.selfhost.yml up -d
 
     Write-Info "Waiting for backend to be ready..."
@@ -327,7 +327,7 @@ function Install-Server {
     }
 
     if ($ready) {
-        Write-Ok "Multica server is running"
+        Write-Ok "Dispatch server is running"
     } else {
         Write-Warn "Server is still starting. Check logs with:"
         Write-Host "  cd $InstallDir; docker compose -f docker-compose.selfhost.yml logs"
@@ -342,23 +342,23 @@ function Install-Server {
 # ---------------------------------------------------------------------------
 function Start-DefaultInstall {
     Write-Host ""
-    Write-Host "  Multica - Installer" -ForegroundColor White
+    Write-Host "  Dispatch - Installer" -ForegroundColor White
     Write-Host ""
 
     Install-Cli
 
     Write-Host ""
     Write-Host "  ============================================" -ForegroundColor Green
-    Write-Host "  [OK] Multica CLI is ready!" -ForegroundColor Green
+    Write-Host "  [OK] Dispatch CLI is ready!" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Next: configure your environment"
     Write-Host ""
-    Write-Host "     multica setup               " -NoNewline; Write-Host "# Connect to Multica Cloud (multica.ai)" -ForegroundColor DarkGray
-    Write-Host "     multica setup self-host      " -NoNewline; Write-Host "# Connect to a self-hosted server" -ForegroundColor DarkGray
+    Write-Host "     dispatch setup               " -NoNewline; Write-Host "# Connect to Dispatch Cloud (dispatch.dev)" -ForegroundColor DarkGray
+    Write-Host "     dispatch setup self-host      " -NoNewline; Write-Host "# Connect to a self-hosted server" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  Self-hosting? Install the server first:"
-    Write-Host '     $env:MULTICA_MODE="with-server"; irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps1 | iex'
+    Write-Host '     $env:DISPATCH_MODE="with-server"; irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.ps1 | iex'
     Write-Host ""
 }
 
@@ -367,7 +367,7 @@ function Start-DefaultInstall {
 # ---------------------------------------------------------------------------
 function Start-LocalInstall {
     Write-Host ""
-    Write-Host "  Multica - Self-Host Installer" -ForegroundColor White
+    Write-Host "  Dispatch - Self-Host Installer" -ForegroundColor White
     Write-Host "  Provisioning server infrastructure + installing CLI"
     Write-Host ""
 
@@ -377,7 +377,7 @@ function Start-LocalInstall {
 
     Write-Host ""
     Write-Host "  ============================================" -ForegroundColor Green
-    Write-Host "  [OK] Multica server is running and CLI is ready!" -ForegroundColor Green
+    Write-Host "  [OK] Dispatch server is running and CLI is ready!" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Frontend:  http://localhost:3000"
@@ -386,13 +386,13 @@ function Start-LocalInstall {
     Write-Host ""
     Write-Host "  Next: configure your CLI to connect"
     Write-Host ""
-    Write-Host "     multica setup self-host  " -NoNewline; Write-Host "# Configure + authenticate + start daemon" -ForegroundColor DarkGray
+    Write-Host "     dispatch setup self-host  " -NoNewline; Write-Host "# Configure + authenticate + start daemon" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  Login: configure RESEND_API_KEY in .env for email codes,"
     Write-Host "  or set APP_ENV=development in .env to enable the dev master code 888888."
     Write-Host ""
     Write-Host "  To stop all services:"
-    Write-Host '     $env:MULTICA_MODE="stop"; irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps1 | iex'
+    Write-Host '     $env:DISPATCH_MODE="stop"; irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.ps1 | iex'
     Write-Host ""
 }
 
@@ -401,7 +401,7 @@ function Start-LocalInstall {
 # ---------------------------------------------------------------------------
 function Start-Stop {
     Write-Host ""
-    Write-Info "Stopping Multica services..."
+    Write-Info "Stopping Dispatch services..."
 
     if (Test-Path $InstallDir) {
         Push-Location $InstallDir
@@ -413,12 +413,12 @@ function Start-Stop {
         }
         Pop-Location
     } else {
-        Write-Warn "No Multica installation found at $InstallDir"
+        Write-Warn "No Dispatch installation found at $InstallDir"
     }
 
-    if (Test-CommandExists "multica") {
+    if (Test-CommandExists "dispatch") {
         try {
-            multica daemon stop 2>$null
+            dispatch daemon stop 2>$null
             Write-Ok "Daemon stopped"
         } catch {}
     }
@@ -429,7 +429,7 @@ function Start-Stop {
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
-$mode = if ($env:MULTICA_MODE) { $env:MULTICA_MODE.ToLower() } else { "default" }
+$mode = if ($env:DISPATCH_MODE) { $env:DISPATCH_MODE.ToLower() } else { "default" }
 
 switch ($mode) {
     "with-server" { Start-LocalInstall }
