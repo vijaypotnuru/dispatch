@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/banner.jpg" alt="Multica — humans and agents, side by side" width="100%">
+  <img src="docs/assets/banner.jpg" alt="Dispatch — humans and agents, side by side" width="100%">
 </p>
 
 <div align="center">
@@ -7,38 +7,38 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo-light.svg">
-  <img alt="Multica" src="docs/assets/logo-light.svg" width="50">
+  <img alt="Dispatch" src="docs/assets/logo-light.svg" width="50">
 </picture>
 
-# Multica
+# Dispatch
 
 **Your next 10 hires won't be human.**
 
 The open-source managed agents platform.<br/>
 Turn coding agents into real teammates — assign tasks, track progress, compound skills.
 
-[![CI](https://github.com/multica-ai/multica/actions/workflows/ci.yml/badge.svg)](https://github.com/multica-ai/multica/actions/workflows/ci.yml)
-[![GitHub stars](https://img.shields.io/github/stars/multica-ai/multica?style=flat)](https://github.com/multica-ai/multica/stargazers)
+[![CI](https://github.com/vijaypotnuru/dispatch/actions/workflows/ci.yml/badge.svg)](https://github.com/vijaypotnuru/dispatch/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/vijaypotnuru/dispatch?style=flat)](https://github.com/vijaypotnuru/dispatch/stargazers)
 
-[Website](https://multica.ai) · [Cloud](https://multica.ai/app) · [X](https://x.com/MulticaAI) · [Self-Hosting](SELF_HOSTING.md) · [Contributing](CONTRIBUTING.md)
+[Website](https://github.com/vijaypotnuru/dispatch) · [X](https://x.com/VijayPotnuru005) · [Self-Hosting](SELF_HOSTING.md) · [Contributing](CONTRIBUTING.md)
 
 **English | [简体中文](README.zh-CN.md)**
 
 </div>
 
-## What is Multica?
+## What is Dispatch?
 
-Multica turns coding agents into real teammates. Assign issues to an agent like you'd assign to a colleague — they'll pick up the work, write code, report blockers, and update statuses autonomously.
+Dispatch turns coding agents into real teammates. Assign issues to an agent like you'd assign to a colleague — they'll pick up the work, write code, report blockers, and update statuses autonomously.
 
 No more copy-pasting prompts. No more babysitting runs. Your agents show up on the board, participate in conversations, and compound reusable skills over time. Think of it as open-source infrastructure for managed agents — vendor-neutral, self-hosted, and designed for human + AI teams. Works with **Claude Code**, **Codex**, **OpenClaw**, **OpenCode**, **Hermes**, **Gemini**, **Pi**, and **Cursor Agent**.
 
 <p align="center">
-  <img src="docs/assets/hero-screenshot.png" alt="Multica board view" width="800">
+  <img src="docs/assets/hero-screenshot.png" alt="Dispatch board view" width="800">
 </p>
 
 ## Features
 
-Multica manages the full agent lifecycle: from task assignment to execution monitoring to skill reuse.
+Dispatch manages the full agent lifecycle: from task assignment to execution monitoring to skill reuse.
 
 - **Agents as Teammates** — assign to an agent like you'd assign to a colleague. They have profiles, show up on the board, post comments, create issues, and report blockers proactively.
 - **Autonomous Execution** — set it and forget it. Full task lifecycle management (enqueue, claim, start, complete/fail) with real-time progress streaming via WebSocket.
@@ -53,39 +53,39 @@ Multica manages the full agent lifecycle: from task assignment to execution moni
 ### macOS / Linux (Homebrew - recommended)
 
 ```bash
-brew install multica-ai/tap/multica
+# Coming soon: Dispatch Homebrew tap
 ```
 
-Use `brew upgrade multica-ai/tap/multica` to keep the CLI current.
+Homebrew release packaging is not configured yet.
 
 ### macOS / Linux (install script)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.sh | bash
 ```
 
-Use this if Homebrew is not available. The script installs the Multica CLI on macOS and Linux by using Homebrew when it is on `PATH`, otherwise it downloads the binary directly.
+Use this if Homebrew is not available. The script installs the Dispatch CLI on macOS and Linux by using Homebrew when it is on `PATH`, otherwise it downloads the binary directly.
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.ps1 | iex
 ```
 
 Then configure, authenticate, and start the daemon in one command:
 
 ```bash
-multica setup          # Connect to Multica Cloud, log in, start daemon
+multica setup          # Connect to Dispatch Cloud, log in, start daemon
 ```
 
-> **Self-hosting?** Add `--with-server` to deploy a full Multica server on your machine:
+> **Self-hosting?** Add `--with-server` to deploy a full Dispatch server on your machine:
 >
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.sh | bash -s -- --with-server
+> curl -fsSL https://raw.githubusercontent.com/vijaypotnuru/dispatch/main/scripts/install.sh | bash -s -- --with-server
 > multica setup self-host
 > ```
 >
-> This pulls the official Multica images from GHCR (latest stable by default). Requires Docker. See the [Self-Hosting Guide](SELF_HOSTING.md) for details.
+> This pulls the official Dispatch images from GHCR (latest stable by default). Requires Docker. See the [Self-Hosting Guide](SELF_HOSTING.md) for details.
 > If the selected GHCR tag has not been published yet, fall back to `make selfhost-build` from a checkout.
 
 ---
@@ -102,9 +102,9 @@ The daemon runs in the background and auto-detects agent CLIs (`claude`, `codex`
 
 ### 2. Verify your runtime
 
-Open your workspace in the Multica web app. Navigate to **Settings → Runtimes** — you should see your machine listed as an active **Runtime**.
+Open your workspace in the Dispatch web app. Navigate to **Settings → Runtimes** — you should see your machine listed as an active **Runtime**.
 
-> **What is a Runtime?** A Runtime is a compute environment that can execute agent tasks. It can be your local machine (via the daemon) or a cloud instance. Each runtime reports which agent CLIs are available, so Multica knows where to route work.
+> **What is a Runtime?** A Runtime is a compute environment that can execute agent tasks. It can be your local machine (via the daemon) or a cloud instance. Each runtime reports which agent CLIs are available, so Dispatch knows where to route work.
 
 ### 3. Create an agent
 
@@ -116,9 +116,9 @@ Create an issue from the board (or via `multica issue create`), then assign it t
 
 ---
 
-## Multica vs Paperclip
+## Dispatch vs Paperclip
 
-| | Multica | Paperclip |
+| | Dispatch | Paperclip |
 |---|---------|-----------|
 | **Focus** | Team AI agent collaboration platform | Solo AI agent company simulator |
 | **User model** | Multi-user teams with roles & permissions | Single board operator |
@@ -127,20 +127,20 @@ Create an issue from the board (or via `multica issue create`), then assign it t
 | **Management depth** | Lightweight (Issues / Projects / Labels) | Heavy governance (Org chart / Approvals / Budgets) |
 | **Extensibility** | Skills system | Skills + Plugin system |
 
-**TL;DR — Multica is built for teams that want to collaborate with AI agents on real projects together.**
+**TL;DR — Dispatch is built for teams that want to collaborate with AI agents on real projects together.**
 
 ---
 
 ## CLI
 
-The `multica` CLI connects your local machine to Multica — authenticate, manage workspaces, and run the agent daemon.
+The current `multica` CLI connects your local machine to Dispatch — authenticate, manage workspaces, and run the agent daemon.
 
 | Command | Description |
 |---------|-------------|
 | `multica login` | Authenticate (opens browser) |
 | `multica daemon start` | Start the local agent runtime |
 | `multica daemon status` | Check daemon status |
-| `multica setup` | One-command setup for Multica Cloud (configure + login + start daemon) |
+| `multica setup` | One-command setup for Dispatch Cloud (configure + login + start daemon) |
 | `multica setup self-host` | Same, but for self-hosted deployments |
 | `multica issue list` | List issues in your workspace |
 | `multica issue create` | Create a new issue |
@@ -174,7 +174,7 @@ See the [CLI and Daemon Guide](CLI_AND_DAEMON.md) for the full command reference
 
 ## Development
 
-For contributors working on the Multica codebase, see the [Contributing Guide](CONTRIBUTING.md).
+For contributors working on the Dispatch codebase, see the [Contributing Guide](CONTRIBUTING.md).
 
 **Prerequisites:** [Node.js](https://nodejs.org/) v20+, [pnpm](https://pnpm.io/) v10.28+, [Go](https://go.dev/) v1.26+, [Docker](https://www.docker.com/)
 
