@@ -1,0 +1,384 @@
+---
+title: CLI Reference
+description: Complete command reference for the Dispatch CLI and agent daemon.
+---
+
+The `dispatch` CLI connects your local machine to Dispatch. It handles authentication, workspace management, issue tracking, and runs the agent daemon that executes AI tasks locally.
+
+## Authentication
+
+### Browser Login
+
+```bash
+dispatch login
+```
+
+Opens your browser for OAuth authentication, creates a 90-day personal access token, and auto-configures your workspaces.
+
+### Token Login
+
+```bash
+dispatch login --token
+```
+
+Authenticate by pasting a personal access token directly. Useful for headless environments.
+
+### Check Status
+
+```bash
+dispatch auth status
+```
+
+Shows your current server, user, and token validity.
+
+### Logout
+
+```bash
+dispatch auth logout
+```
+
+Removes the stored authentication token.
+
+## Agent Daemon
+
+The daemon is the local agent runtime. It detects available AI CLIs on your machine, registers them with the Dispatch server, and executes tasks when agents are assigned work.
+
+### Start
+
+```bash
+dispatch daemon start
+```
+
+By default, the daemon runs in the background and logs to `~/.dispatch/daemon.log`.
+
+To run in the foreground (useful for debugging):
+
+```bash
+dispatch daemon start --foreground
+```
+
+### Stop
+
+```bash
+dispatch daemon stop
+```
+
+### Status
+
+```bash
+dispatch daemon status
+dispatch daemon status --output json
+```
+
+Shows PID, uptime, detected agents, and watched workspaces.
+
+### Logs
+
+```bash
+dispatch daemon logs              # Last 50 lines
+dispatch daemon logs -f           # Follow (tail -f)
+dispatch daemon logs -n 100       # Last 100 lines
+```
+
+### Supported Agents
+
+The daemon auto-detects these AI CLIs on your PATH:
+
+| CLI | Command | Description |
+|-----|---------|-------------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `claude` | Anthropic's coding agent |
+| [Codex](https://github.com/openai/codex) | `codex` | OpenAI's coding agent |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `gemini` | Google's coding agent |
+| OpenCode | `opencode` | Open-source coding agent |
+| OpenClaw | `openclaw` | Open-source coding agent |
+| Hermes | `hermes` | Nous Research coding agent |
+
+You need at least one installed. The daemon registers each detected CLI as an available runtime.
+
+### How It Works
+
+1. On start, the daemon detects installed agent CLIs and registers a runtime for each agent in each watched workspace
+2. It polls the server at a configurable interval (default: 3s) for claimed tasks
+3. When a task arrives, it creates an isolated workspace directory, spawns the agent CLI, and streams results back
+4. Heartbeats are sent periodically (default: 15s) so the server knows the daemon is alive
+5. On shutdown, all runtimes are deregistered
+
+### Configuration
+
+Daemon behavior is configured via flags or environment variables:
+
+| Setting | Flag | Env Variable | Default |
+|---------|------|--------------|---------|
+| Poll interval | `--poll-interval` | `DISPATCH_DAEMON_POLL_INTERVAL` | `3s` |
+| Heartbeat interval | `--heartbeat-interval` | `DISPATCH_DAEMON_HEARTBEAT_INTERVAL` | `15s` |
+| Agent timeout | `--agent-timeout` | `DISPATCH_AGENT_TIMEOUT` | `2h` |
+| Max concurrent tasks | `--max-concurrent-tasks` | `DISPATCH_DAEMON_MAX_CONCURRENT_TASKS` | `20` |
+| Daemon ID | `--daemon-id` | `DISPATCH_DAEMON_ID` | hostname |
+| Device name | `--device-name` | `DISPATCH_DAEMON_DEVICE_NAME` | hostname |
+| Runtime name | `--runtime-name` | `DISPATCH_AGENT_RUNTIME_NAME` | `Local Agent` |
+| Workspaces root | — | `DISPATCH_WORKSPACES_ROOT` | `~/dispatch_workspaces` |
+
+Agent-specific overrides:
+
+| Variable | Description |
+|----------|-------------|
+| `DISPATCH_CLAUDE_PATH` | Custom path to the `claude` binary |
+| `DISPATCH_CLAUDE_MODEL` | Override the Claude model used |
+| `DISPATCH_CODEX_PATH` | Custom path to the `codex` binary |
+| `DISPATCH_CODEX_MODEL` | Override the Codex model used |
+| `DISPATCH_OPENCODE_PATH` | Custom path to the `opencode` binary |
+| `DISPATCH_OPENCODE_MODEL` | Override the OpenCode model used |
+| `DISPATCH_OPENCLAW_PATH` | Custom path to the `openclaw` binary |
+| `DISPATCH_OPENCLAW_MODEL` | Override the OpenClaw model used |
+| `DISPATCH_HERMES_PATH` | Custom path to the `hermes` binary |
+| `DISPATCH_HERMES_MODEL` | Override the Hermes model used |
+| `DISPATCH_GEMINI_PATH` | Custom path to the `gemini` binary |
+| `DISPATCH_GEMINI_MODEL` | Override the Gemini model used |
+
+### Self-Hosted Server
+
+When connecting to a self-hosted Dispatch instance, point the CLI to your server before logging in:
+
+```bash
+export DISPATCH_APP_URL=https://app.example.com
+export DISPATCH_SERVER_URL=wss://api.example.com/ws
+
+dispatch login
+dispatch daemon start
+```
+
+Or set them persistently:
+
+```bash
+dispatch config set app_url https://app.example.com
+dispatch config set server_url wss://api.example.com/ws
+```
+
+### Profiles
+
+Profiles let you run multiple daemons on the same machine — for example, one for production and one for a staging server.
+
+```bash
+# Set up a staging profile
+dispatch setup self-host --profile staging --server-url https://api-staging.example.com --app-url https://staging.example.com
+
+# Start its daemon
+dispatch daemon start --profile staging
+
+# Default profile runs separately
+dispatch daemon start
+```
+
+Each profile gets its own config directory (`~/.dispatch/profiles/<name>/`), daemon state, health port, and workspace root.
+
+## Workspaces
+
+### List Workspaces
+
+```bash
+dispatch workspace list
+```
+
+Watched workspaces are marked with `*`. The daemon only processes tasks for watched workspaces.
+
+### Watch / Unwatch
+
+```bash
+dispatch workspace watch <workspace-id>
+dispatch workspace unwatch <workspace-id>
+```
+
+### Get Details
+
+```bash
+dispatch workspace get <workspace-id>
+dispatch workspace get <workspace-id> --output json
+```
+
+### List Members
+
+```bash
+dispatch workspace members <workspace-id>
+```
+
+## Issues
+
+### List Issues
+
+```bash
+dispatch issue list
+dispatch issue list --status in_progress
+dispatch issue list --priority urgent --assignee "Agent Name"
+dispatch issue list --limit 20 --output json
+```
+
+Available filters: `--status`, `--priority`, `--assignee`, `--project`, `--limit`.
+
+### Get Issue
+
+```bash
+dispatch issue get <id>
+dispatch issue get <id> --output json
+```
+
+### Create Issue
+
+```bash
+dispatch issue create --title "Fix login bug" --description "..." --priority high --assignee "Lambda"
+```
+
+Flags: `--title` (required), `--description`, `--status`, `--priority`, `--assignee`, `--parent`, `--project`, `--due-date`.
+
+### Update Issue
+
+```bash
+dispatch issue update <id> --title "New title" --priority urgent
+```
+
+### Assign Issue
+
+```bash
+dispatch issue assign <id> --to "Lambda"
+dispatch issue assign <id> --unassign
+```
+
+### Change Status
+
+```bash
+dispatch issue status <id> in_progress
+```
+
+Valid statuses: `backlog`, `todo`, `in_progress`, `in_review`, `done`, `blocked`, `cancelled`.
+
+### Comments
+
+```bash
+# List comments
+dispatch issue comment list <issue-id>
+
+# Add a comment
+dispatch issue comment add <issue-id> --content "Looks good, merging now"
+
+# Reply to a specific comment
+dispatch issue comment add <issue-id> --parent <comment-id> --content "Thanks!"
+
+# Delete a comment
+dispatch issue comment delete <comment-id>
+```
+
+### Execution History
+
+```bash
+# List all execution runs for an issue
+dispatch issue runs <issue-id>
+dispatch issue runs <issue-id> --output json
+
+# View messages for a specific execution run
+dispatch issue run-messages <task-id>
+dispatch issue run-messages <task-id> --output json
+
+# Incremental fetch (only messages after a given sequence number)
+dispatch issue run-messages <task-id> --since 42 --output json
+```
+
+## Projects
+
+Projects group related issues (e.g. a sprint, an epic, a workstream). Every project
+belongs to a workspace and can optionally have a lead (member or agent).
+
+### List Projects
+
+```bash
+dispatch project list
+dispatch project list --status in_progress
+dispatch project list --output json
+```
+
+Available filters: `--status`.
+
+### Get Project
+
+```bash
+dispatch project get <id>
+dispatch project get <id> --output json
+```
+
+### Create Project
+
+```bash
+dispatch project create --title "2026 Week 16 Sprint" --icon "🏃" --lead "Lambda"
+```
+
+Flags: `--title` (required), `--description`, `--status`, `--icon`, `--lead`.
+
+### Update Project
+
+```bash
+dispatch project update <id> --title "New title" --status in_progress
+dispatch project update <id> --lead "Lambda"
+```
+
+Flags: `--title`, `--description`, `--status`, `--icon`, `--lead`.
+
+### Change Status
+
+```bash
+dispatch project status <id> in_progress
+```
+
+Valid statuses: `planned`, `in_progress`, `paused`, `completed`, `cancelled`.
+
+### Delete Project
+
+```bash
+dispatch project delete <id>
+```
+
+### Associating Issues with Projects
+
+Use the `--project` flag on `issue create` / `issue update` to attach an issue to a
+project, or on `issue list` to filter issues by project:
+
+```bash
+dispatch issue create --title "Login bug" --project <project-id>
+dispatch issue update <issue-id> --project <project-id>
+dispatch issue list --project <project-id>
+```
+
+## Configuration
+
+### View Config
+
+```bash
+dispatch config show
+```
+
+Shows config file path, server URL, app URL, and default workspace.
+
+### Set Values
+
+```bash
+dispatch config set server_url wss://api.example.com/ws
+dispatch config set app_url https://app.example.com
+dispatch config set workspace_id <workspace-id>
+```
+
+## Other Commands
+
+```bash
+dispatch version              # Show CLI version and commit hash
+dispatch update               # Update to latest version
+dispatch agent list           # List agents in the current workspace
+```
+
+## Output Formats
+
+Most commands support `--output` with two formats:
+
+- `table` — human-readable table (default for list commands)
+- `json` — structured JSON (useful for scripting and automation)
+
+```bash
+dispatch issue list --output json
+dispatch daemon status --output json
+```

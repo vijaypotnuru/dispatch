@@ -1,0 +1,54 @@
+appId: ai.dispatch.desktop
+productName: Dispatch
+directories:
+  buildResources: build
+files:
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.*"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+protocols:
+  - name: Dispatch
+    schemes:
+      - dispatch
+asarUnpack:
+  - resources/**
+mac:
+  entitlementsInherit: build/entitlements.mac.plist
+  target:
+    - dmg
+    - zip
+  # Hardcoded name avoids the `@dispatch/desktop-*` subdirectory that
+  # `${name}` produces for scoped package names.
+  # Naming scheme: dispatch-desktop-<version>-<platform>-<arch>.<ext>
+  # so the filename alone surfaces kind, version, platform, and CPU arch.
+  artifactName: dispatch-desktop-${version}-mac-${arch}.${ext}
+  # Notarize via notarytool. Requires APPLE_ID + APPLE_APP_SPECIFIC_PASSWORD
+  # + APPLE_TEAM_ID env vars at package time. Non-mac contributors are
+  # unaffected because `pnpm package` already requires the Developer ID
+  # signing cert — notarization is a strict superset.
+  notarize: true
+dmg:
+  artifactName: dispatch-desktop-${version}-mac-${arch}.${ext}
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  artifactName: dispatch-desktop-${version}-linux-${arch}.${ext}
+win:
+  target:
+    - nsis
+  artifactName: dispatch-desktop-${version}-windows-${arch}.${ext}
+publish:
+  provider: github
+  owner: dispatch-ai
+  repo: dispatch
+  # Align with our CLI release flow which pre-creates a *published* GitHub
+  # Release via `gh release create`. The electron-builder default of
+  # `releaseType: draft` conflicts with `existingType=release` and causes
+  # uploads of the DMG/ZIP/blockmaps/latest-mac.yml to be silently skipped,
+  # which breaks electron-updater auto-update on installed clients.
+  releaseType: release
+npmRebuild: false
